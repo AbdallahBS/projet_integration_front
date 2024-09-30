@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth';  // Your Node.js backend URL
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signin`, { username, password },  {  withCredentials: true  } );
+    return this.http.post(`${this.apiUrl}/signin`, { username, password }, { withCredentials: true });
   }
 
   logout(): Observable<any> {
@@ -29,7 +29,7 @@ export class AuthService {
     }
     return null;
   }
-  
+
 
   // Decode the JWT payload
   decodeToken(token: string): any {
@@ -45,12 +45,12 @@ export class AuthService {
   // Get the logged-in user by decoding the token from cookies
   getLoggedInUser() {
     const token = this.getCookie('token');
-    console.log("this is ",token);
-     // Assuming the token is stored in a cookie named 'token'
+    console.log("this is ", token);
+    // Assuming the token is stored in a cookie named 'token'
     if (token) {
       const decodedToken = this.decodeToken(token);
-      console.log("decoded token ",decodedToken);
-      
+      console.log("decoded token ", decodedToken);
+
       return decodedToken;
     }
     return null;
@@ -63,5 +63,9 @@ export class AuthService {
       return expiryDate < new Date(); // Check if the current date is past the expiry date
     }
     return true; // Treat token as expired if decoding fails
+  }
+
+  register(username: string, role: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/signup`, { username, role, password }, { withCredentials: true });
   }
 }

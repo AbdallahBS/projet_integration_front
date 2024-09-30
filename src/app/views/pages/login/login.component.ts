@@ -5,7 +5,7 @@ import { ContainerComponent, RowComponent, ColComponent, CardGroupComponent, Tex
 import { AuthService } from '../../../services/auth.services'; // Adjust the path as necessary
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs'; 
+import { of } from 'rxjs';
 import { Router } from '@angular/router'; // Import Router
 
 @Component({
@@ -13,7 +13,7 @@ import { Router } from '@angular/router'; // Import Router
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule,ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
+  imports: [FormsModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
 })
 export class LoginComponent {
   loginData = {
@@ -21,16 +21,16 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService ,  private router: Router) {}
-  
+  constructor(private authService: AuthService, private router: Router) { }
+
   ngOnInit() {
     const token = this.authService.getCookie('token');
-    
+
     if (token && !this.authService.isTokenExpired(token)) {
       this.router.navigate(['/dashboard']);
     }
   }
-    // Inject AuthService
+  // Inject AuthService
   onLogin() {
     this.authService.login(this.loginData.username, this.loginData.password)
       .subscribe(
@@ -39,7 +39,7 @@ export class LoginComponent {
           alert('Login successful:');
           // You can store the user information and redirect to home
           // localStorage.setItem('user', JSON.stringify(response.user));
-          
+
           const user = this.authService.getLoggedInUser();
           if (user && user.userRole === 'superadmin') {
             this.router.navigate(['/dashboard']);
@@ -53,5 +53,9 @@ export class LoginComponent {
           // You can show an error message to the user
         }
       );
+  }
+
+  swapToRegister() {
+    this.router.navigate(['/register']);
   }
 }
