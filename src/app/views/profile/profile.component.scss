@@ -1,0 +1,23 @@
+.btn-link {
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    color: #007bff; /* Set text color */
+    text-decoration: underline; /* Underline text */
+    font-size: 0.9rem; /* Slightly smaller font */
+    padding: 0; /* Remove padding for a flat look */
+    cursor: pointer; /* Change cursor to pointer */
+  
+    &:hover {
+      color: #0056b3; /* Darken color on hover */
+      text-decoration: none; /* Remove underline on hover */
+    }
+  }
+  .custom-avatar {
+    width: 100px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    padding: 50px;
+    margin-right: 50%;/* Add padding */
+    background-color: #f0f0f0; /* Optional: background color for visibility */
+    border-radius: 50%; /* Optional: make the background circular */
+  }
+  

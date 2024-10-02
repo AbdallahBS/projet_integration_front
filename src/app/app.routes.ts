@@ -12,14 +12,21 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'الصفحة الرئيسية'
     },
     children: [
+      
       {
         path: 'dashboard',
         canActivate: [AuthGuard] ,// Protect the dashboard route
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+      },
+      {
+        path: 'profile',
+        canActivate: [AuthGuard] ,// Protect the dashboard route
+
+        loadChildren: () => import('./views/profile/routes').then((m) => m.routes)
       },
       {
         path: 'theme',
@@ -87,5 +94,6 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
+
   { path: '**', redirectTo: 'dashboard' }
 ];

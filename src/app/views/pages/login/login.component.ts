@@ -7,13 +7,14 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router'; // Import Router
+import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
+  imports: [FormsModule,TranslateModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
 })
 export class LoginComponent {
   loginData = {
@@ -21,8 +22,10 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService, private router: Router) { }
-
+  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
+    translate.setDefaultLang('ar');
+    translate.use('ar');
+  }
   ngOnInit() {
     const token = this.authService.getCookie('token');
 

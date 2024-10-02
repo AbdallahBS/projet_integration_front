@@ -70,7 +70,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     {
       id: 0,
       from: 'Jessica Williams',
-      avatar: '7.jpg',
+      avatar: 'profile.png',
       status: 'success',
       title: 'Urgent: System Maintenance Tonight',
       time: 'Just now',
@@ -80,7 +80,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     {
       id: 1,
       from: 'Richard Johnson',
-      avatar: '6.jpg',
+      avatar: 'profile.png',
       status: 'warning',
       title: 'Project Update: Milestone Achieved',
       time: '5 minutes ago',
@@ -90,7 +90,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     {
       id: 2,
       from: 'Angela Rodriguez',
-      avatar: '5.jpg',
+      avatar: 'profile.png',
       status: 'danger',
       title: 'Social Media Campaign Launch',
       time: '1:52 PM',
@@ -100,7 +100,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     {
       id: 3,
       from: 'Jane Lewis',
-      avatar: '4.jpg',
+      avatar: 'profile.png',
       status: 'info',
       title: 'Inventory Checkpoint',
       time: '4:03 AM',
@@ -110,7 +110,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     {
       id: 3,
       from: 'Ryan Miller',
-      avatar: '4.jpg',
+      avatar: 'profile.png',
       status: 'info',
       title: 'Customer Feedback Results',
       time: '3 days ago',

@@ -1,0 +1,12 @@
+{
+    
+    "profile": {
+    "title": "Informations du profil",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "show": "Montrer",
+    "hide": "Cacher",
+    "updateProfile": "Mettre à jour le profil"
+  }
+
+}
