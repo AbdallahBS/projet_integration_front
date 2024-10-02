@@ -5,8 +5,8 @@
         <c-card class="mx-4">
           <c-card-body class="p-4">
             <form cForm (ngSubmit)="onRegister()">
-              <h1>Register</h1>
-              <p class="text-body-secondary">Create your account</p>
+              <h1>{{ 'SIGNUP.SUBMIT' | translate }}</h1>
+              <p class="text-body-secondary">{{ 'SIGNUP.TITLE' | translate }}</p>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
                   <svg cIcon name="cilUser"></svg>

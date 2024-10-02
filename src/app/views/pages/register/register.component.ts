@@ -7,13 +7,16 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router'; // Import Router
+import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   standalone: true,
-  imports: [FormsModule, ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective]
+  imports: [CommonModule, TranslateModule, FormsModule, ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective]
 })
 export class RegisterComponent {
 
@@ -25,7 +28,10 @@ export class RegisterComponent {
     repeatPassword: '',
   };
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
+    translate.setDefaultLang('ar');
+    translate.use('ar');
+  }
 
   onRegister() {
     if (this.registerData.password !== this.registerData.repeatPassword) {
