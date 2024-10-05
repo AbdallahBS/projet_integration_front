@@ -84,7 +84,10 @@ export class GestionenseignantComponent implements OnInit {
     if (this.enseignantForm.valid) {
       this.isSubmitting = true;
       const enseignantData = this.enseignantForm.value;
-
+  
+      // Convert the classe string to an array if necessary
+      enseignantData.classe = enseignantData.classe.split(',').map((classe: string) => classe.trim());
+  
       if (this.selectedEnseignantId) {
         // Update existing enseignant
         this.enseignantService.updateEnseignant(this.selectedEnseignantId, enseignantData).subscribe({
@@ -115,6 +118,7 @@ export class GestionenseignantComponent implements OnInit {
       }
     }
   }
+  
 
   deleteEnseignant(enseignantId: number | undefined): void {
     if (enseignantId === undefined) {
@@ -148,7 +152,13 @@ export class GestionenseignantComponent implements OnInit {
 
   filterEnseignants(): void {
     this.filteredEnseignants = this.enseignants.filter(enseignant => 
-      enseignant.nom.toLowerCase().includes(this.searchName.toLowerCase()) &&
+      enseignant.nom.toLowerCase().includes(this.searchName.toLowerCase()) 
+      
+    );
+  }
+  filterEnseignantsByClasse(): void {
+    this.filteredEnseignants = this.enseignants.filter(enseignant => 
+
       enseignant.classe.toLowerCase().includes(this.searchClass.toLowerCase())
     );
   }
