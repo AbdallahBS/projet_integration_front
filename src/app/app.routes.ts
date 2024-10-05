@@ -22,11 +22,24 @@ export const routes: Routes = [
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
+          
+      {
+        path: 'gestionenseignant',
+        canActivate: [AuthGuard] ,// Protect the dashboard route
+
+        loadChildren: () => import('./views/gestionenseignant/routes').then((m) => m.routes)
+      },
       {
         path: 'profile',
         canActivate: [AuthGuard] ,// Protect the dashboard route
 
         loadChildren: () => import('./views/profile/routes').then((m) => m.routes)
+      },
+      {
+        path: 'gestioneleve',
+        canActivate: [AuthGuard] ,// Protect the dashboard route
+
+        loadChildren: () => import('./views/gestioneleve/routes').then((m) => m.routes)
       },
       {
         path: 'theme',

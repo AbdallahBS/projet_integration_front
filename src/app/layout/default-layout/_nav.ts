@@ -21,13 +21,13 @@ export const navItems: INavData[] = [
   },
   {
     name: 'إدارة المدرسين',
-    url: '/base',
+    url: '/gestionenseignant',
     iconComponent: { name: 'cil-puzzle' },
    
   },
   {
     name: 'إدارة التلاميذ',
-    url: '/buttons',
+    url: '/gestioneleve',
     iconComponent: { name: 'cil-cursor' },
    
   },

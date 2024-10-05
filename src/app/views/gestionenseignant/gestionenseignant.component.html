@@ -1,0 +1,89 @@
+<c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>إدارة المدرسين</strong>
+      </c-card-header>
+  
+      <c-card-body>
+        <!-- Header with Add and Search -->
+        <div class="d-flex justify-content-between mb-3">
+          <div class="text-end">
+            <button type="button" class="btn btn-primary" (click)="showForm = !showForm">
+              إضافة مدرس
+            </button>
+          </div>
+          <div class="d-flex">
+            <input type="text" class="form-control me-2" placeholder="بحث بالاسم..." [(ngModel)]="searchName" (ngModelChange)="filterEnseignants()">
+            <input type="text" class="form-control" placeholder="بحث بالصف..." [(ngModel)]="searchClass" (ngModelChange)="filterEnseignants()">
+          </div>
+        </div>
+  
+        <!-- Toggleable Form Card -->
+        <c-card *ngIf="showForm" class="mb-4 p-3" style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <c-card-header class="bg-light text-center">
+            <strong>إضافة مدرس جديد</strong>
+          </c-card-header>
+          <c-card-body>
+            <form [formGroup]="enseignantForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="nom" class="form-label">الاسم</label>
+                <input type="text" id="nom" formControlName="nom" class="form-control" placeholder="أدخل الاسم">
+              </div>
+              <div class="mb-3">
+                <label for="prenom" class="form-label">اللقب</label>
+                <input type="text" id="prenom" formControlName="prenom" class="form-control" placeholder="أدخل اللقب">
+              </div>
+              <div class="mb-3">
+                <label for="classe" class="form-label">الصف</label>
+                <input type="text" id="classe" formControlName="classe" class="form-control" placeholder="أدخل الصف">
+              </div>
+              <div class="mb-3">
+                <label for="numerotel" class="form-label">رقم الهاتف</label>
+                <input type="text" id="numerotel" formControlName="numerotel" class="form-control" placeholder="أدخل رقم الهاتف">
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-success" [disabled]="isSubmitting">حفظ</button>
+                <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">إلغاء</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+  
+        <!-- Table for Enseignants -->
+        <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-light">
+            <tr>
+              <th>الاسم</th>
+              <th>الصف</th>
+              <th>رقم الهاتف</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let enseignant of filteredEnseignants">
+              <td>
+                <div class="d-flex align-items-center">
+                  <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/tch.png" status="success" textColor="primary" alt="User avatar"></c-avatar>
+                  <div class="ms-3">
+                    <p class="fw-bold mb-1">{{ enseignant.nom }} {{ enseignant.prenom }}</p>
+                    <p class="text-muted mb-0">{{ enseignant.classe }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="fw-normal mb-1">{{ enseignant.classe }}</p>
+              </td>
+              <td>
+                <p class="fw-normal mb-1">{{ enseignant.numerotel }}</p>
+              </td>
+              <td>
+                <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editEnseignant(enseignant)">تعديل</button>
+                <button type="button" class="btn btn-link btn-sm btn-rounded text-danger" (click)="deleteEnseignant(enseignant.id)">حذف</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+  
