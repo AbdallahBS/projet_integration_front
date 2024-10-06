@@ -12,15 +12,15 @@
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username" cFormControl placeholder="{{ 'LOGIN.USERNAME' | translate }}" [(ngModel)]="loginData.username"
-                    name="username" />
+                  <input autoComplete="username" cFormControl placeholder="{{ 'LOGIN.USERNAME' | translate }}"
+                    [(ngModel)]="loginData.username" name="username" />
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
-                  <input autoComplete="current-password" cFormControl placeholder="{{ 'LOGIN.PASSWORD' | translate }}" type="password"
-                    [(ngModel)]="loginData.password" name="password" />
+                  <input autoComplete="current-password" cFormControl placeholder="{{ 'LOGIN.PASSWORD' | translate }}"
+                    type="password" [(ngModel)]="loginData.password" name="password" />
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
@@ -32,6 +32,18 @@
                     <!-- Add any additional buttons or text here if needed -->
                   </c-col>
                 </c-row>
+                <div *ngIf="isLoginSucceed" class="bottom-right">
+                  <div class="custom-success-alert success-alert">
+                    <svg cIcon class="me-2" name="cil-check"></svg>
+                    <span class="text">{{ 'LOGIN.SUCCESS' | translate }}</span>
+                  </div>
+                </div>
+                <div *ngIf="isLoginSucceed==false" class="bottom-right">
+                  <div class="custom-fail-alert fail-alert">
+                    <svg cIcon class="me-2" name="cilLockLocked"></svg>
+                    <span class="text">{{ 'LOGIN.FAILED' | translate }}</span>
+                  </div>
+                </div>
               </form>
             </c-card-body>
           </c-card>

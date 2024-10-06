@@ -68,15 +68,23 @@ export class AuthService {
   register(username: string, role: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/signup`, { username, role, password }, { withCredentials: true });
   }
-    // Method to update user details
-    updateUserProfile(data: { userId: string; username: string; password?: string }) {
-      const token = this.getCookie('token');
-      console.log("tokennnn" , token);
-       // Adjust if you're using cookies
-      return this.http.put(`${this.apiUrl}/updateUserDetails`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
+  // Method to update user details
+  updateUserProfile(data: { userId: string; username: string; password?: string }) {
+    const token = this.getCookie('token');
+    console.log("tokennnn", token);
+    // Adjust if you're using cookies
+    return this.http.put(`${this.apiUrl}/updateUserDetails`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
+  checkInitialization(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/checkinit`, {}, { withCredentials: true });
+  }
+
+  initializeapp(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/initializeapp`, { username, password }, { withCredentials: true });
+  }
 }

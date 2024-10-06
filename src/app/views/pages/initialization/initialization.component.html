@@ -1,0 +1,70 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+    <c-container breakpoint="md">
+        <c-row class="justify-content-center">
+            <c-col lg="10" xl="5">
+                <c-card-group>
+                    <c-card class="p-4">
+                        <c-card-body>
+                            <form cForm (ngSubmit)="onInitialize()">
+                                <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
+                                <p class="text-body-secondary">{{ 'SIGNUP.SUBTITLE' | translate }}</p>
+                                <c-input-group class="mb-3">
+                                    <span cInputGroupText>
+                                        <svg cIcon name="cilUser"></svg>
+                                    </span>
+                                    <input autoComplete="username" cFormControl
+                                        placeholder="{{ 'SIGNUP.USERNAME' | translate }}"
+                                        [(ngModel)]="initData.username" name="username" />
+                                </c-input-group>
+                                <c-input-group class="mb-4">
+                                    <span cInputGroupText>
+                                        <svg cIcon name="cilLockLocked"></svg>
+                                    </span>
+                                    <input autoComplete="current-password" cFormControl
+                                        placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" type="password"
+                                        [(ngModel)]="initData.password" name="password" />
+                                </c-input-group>
+                                <c-input-group class="mb-4">
+                                    <span cInputGroupText>
+                                        <svg cIcon name="cilLockLocked"></svg>
+                                    </span>
+                                    <input autoComplete="current-password" cFormControl
+                                        placeholder="{{ 'SIGNUP.CONFIRM_PASSWORD' | translate }}" type="password"
+                                        [(ngModel)]="initData.verifypassword" name="verifypassword" />
+                                </c-input-group>
+                                <c-row>
+                                    <c-col xs="6">
+                                        <button cButton class="px-4" color="primary" type="submit">
+                                            {{ 'SIGNUP.SUBMIT' | translate }}
+                                        </button>
+                                    </c-col>
+                                    <c-col class="text-right" xs="6">
+                                        <!-- Add any additional buttons or text here if needed -->
+                                    </c-col>
+                                </c-row>
+                                <div *ngIf="isInitSucceed" class="bottom-right">
+                                    <div class="custom-success-alert success-alert">
+                                        <svg cIcon class="me-2" name="cil-check"></svg>
+                                        <span class="text">{{ 'SIGNUP.SUCCESS' | translate }}</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="isInitSucceed==false" class="bottom-right">
+                                    <div class="custom-fail-alert fail-alert">
+                                        <svg cIcon class="me-2" name="cilLockLocked"></svg>
+                                        <span class="text">{{ 'LOGIN.FAILED' | translate }}</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="passwordVerificationFailed" class="bottom-right">
+                                    <div class="custom-fail-alert fail-alert">
+                                        <svg cIcon class="me-2" name="cilLockLocked"></svg>
+                                        <span class="text">{{ 'SIGNUP.PASSFAILED' | translate }}</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </c-card-body>
+                    </c-card>
+                </c-card-group>
+            </c-col>
+        </c-row>
+    </c-container>
+</div>

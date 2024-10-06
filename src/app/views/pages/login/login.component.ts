@@ -8,29 +8,45 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router'; // Import Router
 import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
+import { AlertModule } from '@coreui/angular';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule,TranslateModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
+  imports: [CommonModule, AlertModule, FormsModule, TranslateModule, ContainerComponent, RowComponent, ColComponent, CardGroupComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective, NgStyle]
 })
 export class LoginComponent {
   loginData = {
     username: '',
     password: ''
   };
+  isLoginSucceed: Boolean | null = null;
 
   constructor(private authService: AuthService, private router: Router, private translate: TranslateService) {
     translate.setDefaultLang('ar');
     translate.use('ar');
   }
+
   ngOnInit() {
     const token = this.authService.getCookie('token');
 
     if (token && !this.authService.isTokenExpired(token)) {
       this.router.navigate(['/dashboard']);
+    } else {
+      this.authService.checkInitialization().subscribe(
+        response => {
+          if (!response.isInitialized) {
+            this.router.navigate(['/initialization']);
+          }
+        },
+        error => {
+          console.error('Error checking initialization:', error);
+          // Handle error (e.g., show error message)
+        }
+      )
     }
   }
   // Inject AuthService
@@ -38,21 +54,27 @@ export class LoginComponent {
     this.authService.login(this.loginData.username, this.loginData.password)
       .subscribe(
         response => {
-          // Handle successful login response
-          alert('Login successful:');
-          // You can store the user information and redirect to home
-          // localStorage.setItem('user', JSON.stringify(response.user));
-
           const user = this.authService.getLoggedInUser();
           if (user && user.userRole === 'superadmin') {
-            this.router.navigate(['/dashboard']);
-          } else {
+            this.isLoginSucceed = true;
+            setTimeout(() => {
+              this.isLoginSucceed = null;
+              this.router.navigate(['/dashboard']);
+            }, 3000);
+          } /**else {
+            this.isLoginSucceed = false;
+            setTimeout(() => {
+              this.isLoginSucceed = null;
+            }, 3000);
             alert('You do not have access to the dashboard.');
-          }
+          }**/
         },
         error => {
           // Handle error response
-          alert('Login failed:');
+          this.isLoginSucceed = false;
+          setTimeout(() => {
+            this.isLoginSucceed = null;
+          }, 3000);
           // You can show an error message to the user
         }
       );
@@ -61,4 +83,6 @@ export class LoginComponent {
   swapToRegister() {
     this.router.navigate(['/register']);
   }
+
+
 }

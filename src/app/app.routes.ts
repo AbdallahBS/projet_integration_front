@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard'; // Import the AuthGuard
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -15,10 +15,10 @@ export const routes: Routes = [
       title: 'الصفحة الرئيسية'
     },
     children: [
-      
+
       {
         path: 'dashboard',
-        canActivate: [AuthGuard] ,// Protect the dashboard route
+        canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
@@ -37,7 +37,7 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
-        canActivate: [AuthGuard] ,// Protect the dashboard route
+        canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/profile/routes').then((m) => m.routes)
       },
@@ -111,6 +111,13 @@ export const routes: Routes = [
     loadComponent: () => import('./views/pages/register/register.component').then(m => m.RegisterComponent),
     data: {
       title: 'Register Page'
+    }
+  },
+  {
+    path: 'initialization',
+    loadComponent: () => import('./views/pages/initialization/initialization.component').then(m => m.InitializationComponent),
+    data: {
+      title: 'Initialization Page'
     }
   },
 
