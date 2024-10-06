@@ -15,7 +15,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'إدارة المديرين',
-    url: '/forms',
+    url: '/gestionadmins',
     iconComponent: { name: 'cil-notes' },
     
   },

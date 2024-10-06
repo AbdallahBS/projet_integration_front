@@ -1,0 +1,105 @@
+<c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>إدارة المشرفين</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- Header with Add and Search -->
+        <div class="d-flex justify-content-between mb-3">
+          <div class="text-end">
+            <button type="button" class="btn btn-primary" (click)="showForm = !showForm">
+              إضافة مشرف
+            </button>
+          </div>
+          <div class="d-flex">
+            <input
+              type="text"
+              class="form-control me-2"
+              placeholder="بحث بالاسم..."
+              [(ngModel)]="searchName"
+              (ngModelChange)="filterAdmins()"
+            />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="بحث بالدور..."
+              [(ngModel)]="searchRole"
+              (ngModelChange)="filterAdmins()"
+            />
+          </div>
+        </div>
+  
+        <!-- Toggleable Form Card -->
+        <c-card *ngIf="showForm" class="mb-4 p-3" style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <c-card-header class="bg-light text-center">
+            <strong>إضافة مشرف جديد</strong>
+          </c-card-header>
+          <c-card-body>
+            <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="username" class="form-label">اسم المستخدم</label>
+                <input type="text" id="username" formControlName="username" class="form-control" placeholder="أدخل اسم المستخدم" />
+              </div>
+              <div class="mb-3">
+                <label for="mdp" class="form-label">كلمة المرور</label>
+                <input type="password" id="mdp" formControlName="mdp" class="form-control" placeholder="أدخل كلمة المرور" />
+              </div>
+              <div class="mb-3">
+                <label for="role" class="form-label">الدور</label>
+                <select id="role" formControlName="role" class="form-control">
+                  <option value="admin">Admin</option>
+                  <option value="superadmin">Superadmin</option>
+                </select>
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-success" [disabled]="isSubmitting">حفظ</button>
+                <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">إلغاء</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+  
+        <!-- Table for Admins -->
+        <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-light">
+            <tr>
+              <th>اسم المستخدم</th>
+              <th>الدور</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let admin of filteredAdmins">
+              <td>
+                <ng-container *ngIf="admin.role === 'superadmin'; else adminAvatar">
+                    <c-avatar
+                      shape="rounded-1"
+                      [size]="'md'"
+                      src="./assets/images/avatars/profile.png"
+                      status="success"
+                      textColor="primary"
+                      alt="Superadmin avatar"
+                    ></c-avatar>
+                  </ng-container>
+                  <ng-template #adminAvatar>
+                    <c-avatar
+                      shape="rounded-1"
+                      [size]="'md'"
+                      src="./assets/images/avatars/adminm.png"
+                      status="success"
+                      textColor="primary"
+                      alt="Admin avatar"
+                    ></c-avatar>
+                  </ng-template>                {{ admin.username }}</td>
+              <td>{{ admin.role }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-secondary me-2" (click)="editAdmin(admin)">تعديل</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteAdmin(admin.id)">حذف</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+  
