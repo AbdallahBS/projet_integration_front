@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean | Observable<boolean> {
     // Check if the user is logged in and has the 'superadmin' role
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
       return true;
     } else {
       // User is either not logged in or doesn't have the correct role
-      this.router.navigate(['/404']); // Redirect to 404 page
+      this.router.navigate(['/login']); // Redirect to 404 page
       return false;
     }
   }

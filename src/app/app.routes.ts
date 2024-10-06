@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard'; // Import the AuthGuard
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
@@ -22,16 +22,16 @@ export const routes: Routes = [
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
-          
+
       {
         path: 'gestionenseignant',
-        canActivate: [AuthGuard] ,// Protect the dashboard route
+        canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/gestionenseignant/routes').then((m) => m.routes)
       },
       {
         path: 'gestionadmins',
-        canActivate: [AuthGuard] ,// Protect the dashboard route
+        canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/gestionadmins/routes').then((m) => m.routes)
       },
@@ -43,7 +43,7 @@ export const routes: Routes = [
       },
       {
         path: 'gestioneleve',
-        canActivate: [AuthGuard] ,// Protect the dashboard route
+        canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/gestioneleve/routes').then((m) => m.routes)
       },
