@@ -55,83 +55,47 @@ export class DashboardComponent implements OnInit {
 
   public users: IUser[] = [
     {
-      name: 'Yiorgos Avraamu',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Us',
+      name: 'Amine Ben Saleh',
+      state: 'جديد',
+      registered: '',
+      country: 'مساعد',
       usage: 50,
       period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Mastercard',
-      activity: '10 sec ago',
+      payment: 'نشط الأن',
+      activity: 'إضافة تلميد جديد',
       avatar: './assets/images/avatars/profile.png',
       status: 'success',
       color: 'success'
     },
     {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
-      registered: 'Jan 1, 2021',
-      country: 'Br',
-      usage: 10,
+      name: 'Abdallah Ben Salem',
+      state: 'قديم',
+      registered: '',
+      country: 'مساعد',
+      usage: 50,
       period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Visa',
-      activity: '5 minutes ago',
+      payment: 'غير نشط',
+      activity: 'DSI32 إضافة قسم ',
       avatar: './assets/images/avatars/profile.png',
       status: 'danger',
       color: 'info'
     },
     {
-      name: 'Quintin Ed',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'In',
-      usage: 74,
+      name: 'Wael Riahi',
+      state: 'قديم',
+      registered: '',
+      country: 'مساعد',
+      usage: 50,
       period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Stripe',
-      activity: '1 hour ago',
+      payment: 'غير نشط',
+      activity: ' DSI33 إضافة قسم ',
       avatar: './assets/images/avatars/profile.png',
-      status: 'warning',
-      color: 'warning'
+      status: 'danger',
+      color: 'info'
     },
-    {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
-      registered: 'Jan 1, 2021',
-      country: 'Fr',
-      usage: 98,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Paypal',
-      activity: 'Last month',
-      avatar: './assets/images/avatars/profile.png',
-      status: 'secondary',
-      color: 'danger'
-    },
-    {
-      name: 'Agapetus Tadeáš',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Es',
-      usage: 22,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'ApplePay',
-      activity: 'Last week',
-      avatar: './assets/images/avatars/profile.png',
-      status: 'success',
-      color: 'primary'
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/images/avatars/profile.png',
-      status: 'info',
-      color: 'dark'
-    }
+   
+    
+   
   ];
 
   public mainChart: IChartProps = { type: 'line' };

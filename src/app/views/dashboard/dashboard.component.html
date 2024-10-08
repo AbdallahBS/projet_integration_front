@@ -6,7 +6,6 @@
 
 <app-widgets-brand [withCharts]="true" />
 
-
 <c-row>
   <c-col xs>
     <c-card class="mb-4">
@@ -24,11 +23,11 @@
             <th class="bg-body-tertiary text-center ">
               <svg cIcon name="cilPeople"></svg>
             </th>
-            <th class="bg-body-tertiary">User</th>
-            <th class="bg-body-tertiary text-center">Country</th>
-            <th class="bg-body-tertiary">Usage</th>
-            <th class="bg-body-tertiary text-center">Payment Method</th>
-            <th class="bg-body-tertiary">Activity</th>
+            <th class="bg-body-tertiary">إسم المدير</th>
+            <th class="bg-body-tertiary text-center">الرتبة</th>
+            <th class="bg-body-tertiary">النشاط</th>
+            <th class="bg-body-tertiary text-center">التوقيت</th>
+            <th class="bg-body-tertiary">نشط</th>
           </tr>
           </thead>
           <tbody>
@@ -37,42 +36,33 @@
                 <td class="text-center">
                   <c-avatar [size]="'md'" src="{{ user.avatar }}" status="{{ user.status }}" />
                 </td>
-                <td>
+                <td >
                   <div>{{ user.name }}</div>
                   <div class="small text-body-secondary text-nowrap">
                   <span>
-                    {{ user.state }} | Registered: {{ user.registered }}
+                    {{ user.state }} 
                   </span>
                   </div>
                 </td>
                 <td class="text-center">
-                  <svg
-                    cIcon
-                    id="{{ user.country + user.name }}"
-                    name="cif{{ user.country }}"
-                    size="xl"
-                    title="{{ user.country }}"
-                  ></svg>
+                  <div>{{ user.country }}</div>
+                 
+                  
                 </td>
                 <td>
                   <div class="d-flex justify-content-between">
                     <div class="float-start">
-                      <strong>{{ user.usage }}%</strong>
+                      <div>{{ user.activity }}</div>
+
                     </div>
-                    <div class="float-end ms-1 text-nowrap">
-                      <small class="text-body-secondary">
-                        {{ user.period }}
-                      </small>
-                    </div>
+                    
                   </div>
-                  <c-progress thin [value]="user.usage" color="{{ user.color }}" aria-label="Usage" />
                 </td>
                 <td class="text-center">
-                  <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+                  <div>{{ user.period }}</div>
                 </td>
                 <td>
-                  <div class="small text-body-secondary">Last login</div>
-                  <div class="fw-semibold text-nowrap">{{ user.activity }}</div>
+                  <div class="fw-semibold text-nowrap">{{ user.payment }}</div>
                 </td>
               </tr>
             }
@@ -82,3 +72,4 @@
     </c-card>
   </c-col>
 </c-row>
+
