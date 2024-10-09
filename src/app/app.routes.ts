@@ -42,6 +42,12 @@ export const routes: Routes = [
         loadChildren: () => import('./views/profile/routes').then((m) => m.routes)
       },
       {
+        path: 'gestion-level',
+        canActivate: [AuthGuard],// Protect the dashboard route
+
+        loadChildren: () => import('./views/gestion-level/routes').then((m) => m.routes)
+      },
+      {
         path: 'gestioneleve',
         canActivate: [AuthGuard],// Protect the dashboard route
 

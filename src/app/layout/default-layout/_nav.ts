@@ -26,6 +26,12 @@ export const navItems: INavData[] = [
    
   },
   {
+    name: 'إدارة الأقسام',
+    url: '/gestion-level',
+    iconComponent: { name: 'cil-puzzle' },
+   
+  },
+  {
     name: 'إدارة التلاميذ',
     url: '/gestioneleve',
     iconComponent: { name: 'cil-cursor' },

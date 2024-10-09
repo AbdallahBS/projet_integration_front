@@ -1,0 +1,73 @@
+<c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>إدارة المستويات</strong>
+      </c-card-header>
+      <c-card-body>
+        <!-- Header with Add and Search -->
+        <div class="d-flex justify-content-between mb-3">
+          <div class="text-end">
+            <button type="button" class="btn btn-primary" (click)="showForm = !showForm">
+              إضافة مستوى
+            </button>
+          </div>
+          <div class="d-flex">
+            <input type="text" class="form-control" placeholder="بحث بالاسم..." [(ngModel)]="searchName" (ngModelChange)="filterLevels()">
+          </div>
+        </div>
+  
+        <!-- Toggleable Form Card -->
+        <c-card *ngIf="showForm" class="mb-4 p-3" style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <c-card-header class="bg-light text-center">
+            <strong>{{ selectedLevelId ? 'تعديل المستوى' : 'إضافة مستوى جديد' }}</strong>
+          </c-card-header>
+          <c-card-body>
+            <form (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="niveau" class="form-label">المستوى</label>
+                <select id="niveau" [(ngModel)]="levelData.niveau" name="niveau" class="form-select">
+                  <option value="" disabled selected>اختر المستوى</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="nomDeLevel" class="form-label">اسم المستوى</label>
+                <input type="text" id="nomDeLevel" [(ngModel)]="levelData.nomDeLevel" name="nomDeLevel" class="form-control" placeholder="أدخل اسم المستوى">
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-success" [disabled]="isSubmitting">
+                  حفظ
+                </button>
+                <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">
+                  إلغاء
+                </button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+  
+        <!-- Table for Levels -->
+        <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-light">
+            <tr>
+              <th>اسم المستوى</th>
+              <th>المستوى</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let level of filteredLevels">
+              <td>{{ level.nomDeLevel }}</td>
+              <td>{{ level.niveau }}</td>
+              <td>
+                <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editLevel(level)">تعديل</button>
+                <button type="button" class="btn btn-link btn-sm btn-rounded text-danger" (click)="deleteLevel(level.id)">حذف</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
