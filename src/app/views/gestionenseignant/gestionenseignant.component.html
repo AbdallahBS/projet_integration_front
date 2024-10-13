@@ -34,13 +34,85 @@
                 <input type="text" id="prenom" formControlName="prenom" class="form-control" placeholder="أدخل اللقب">
               </div>
               <div class="mb-3">
-                <label for="classe" class="form-label">الصف</label>
-                <input type="text" id="classe" formControlName="classe" class="form-control" placeholder="أدخل الصف">
-              </div>
-              <div class="mb-3">
                 <label for="numerotel" class="form-label">رقم الهاتف</label>
                 <input type="text" id="numerotel" formControlName="numerotel" class="form-control" placeholder="أدخل رقم الهاتف">
               </div>
+
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label for="niveau" class="form-label">المستوى</label>
+                  <select id="niveau" [(ngModel)]="levelData.niveau" name="niveau" class="form-select" (change)="onLevelChange($event)">
+                    <option value="" disabled selected>اختر المستوى</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                  </select>
+                </div>
+              
+                <div class="col-md-3 mb-3">
+                  <label for="classe" class="form-label">الصف</label>
+                  <select id="classe" [(ngModel)]="levelData.classe" name="classe" class="form-select" (change)="onClasseChange($event)">
+                    <option value="" disabled selected>اختر الصف</option>
+                    <option *ngFor="let classe of classes" [value]="classe.id">{{ classe.nomDeClasse }}</option>
+                  </select>
+                </div>
+              
+                <div class="col-md-3 mb-3">
+                  <label for="matiere" class="form-label">المادة</label>
+                  <select id="matiere" [(ngModel)]="levelData.matiere" name="matiere" class="form-select" (change)="onMatiereChange($event)">
+                    <option value="" disabled selected>اختر المادة</option>
+                    <option value="العربية">العربية</option>
+                    <option value="الفرنسية">الفرنسية</option>
+                    <option value="الإنقليزية">الإنقليزية</option>
+                    <option value="الإعلامية">الإعلامية</option>
+                    <option value="رياضيات">رياضيات</option>
+                    <option value="علوم فيزيائية">علوم فيزيائية</option>
+                    <option value="علوم الأحياء والأرض">علوم الأحياء والأرض</option>
+                    <option value="علوم تكنولوجية">علوم تكنولوجية</option>
+                    <option value="تربية إسلامية">تربية إسلامية</option>
+                    <option value="تربية مدنية">تربية مدنية</option>
+                    <option value="تاريخ و جغرافيا">تاريخ و جغرافيا</option>
+                  </select>
+                </div>
+              
+                <!-- Add Button in the row -->
+                <div class="col-md-3 mb-3 d-flex align-items-end">
+                  <button class="btn btn-primary w-100" (click)="onAddClick()" >إضافة</button>
+                </div>
+              </div>
+              
+              
+            
+              
+
+              <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light">
+                  <tr>
+                    <th>المستوى</th>
+                    <th>الصف</th>
+                    <th>المادة</th>
+                    <th>الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of storedData; let i = index">
+                    <td>{{ item.niveau }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.matiere }}</td>
+                    <td>
+                      <button type="button" class="btn btn-link btn-sm btn-rounded text-danger" (click)="onDeleteClick(i)">حذف</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+
+
+
+
+
+             
               <div class="text-end">
                 <button type="submit" class="btn btn-success" [disabled]="isSubmitting">حفظ</button>
                 <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">إلغاء</button>

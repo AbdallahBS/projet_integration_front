@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { EnseignantService } from '../../services/enseignant.service'; // New service for enseignants
 import { Enseignant } from '../../models/enseignant.model'; // Update to Enseignant model
 import { CommonModule } from '@angular/common';
+import { Class } from '../../models/class.model'; // Import Class model
+import { ClassService } from '../../services/class.service'; // Import the ClassService
+
 import {
   AvatarComponent,
   CardBodyComponent,
@@ -44,6 +47,9 @@ import {
 export class GestionenseignantComponent implements OnInit {
   selectedEnseignantId: number | null | undefined = null;
   enseignants: Enseignant[] = [];
+  classes: Class[] = []; // Store classes
+  levelData = { niveau: '', classe: '' ,matiere :'' , name:''};
+
   enseignantForm!: FormGroup;
   showForm = false;
   isSubmitting = false;
@@ -51,12 +57,97 @@ export class GestionenseignantComponent implements OnInit {
   searchClass: string = '';
   filteredEnseignants: Enseignant[] = [];
 
+  storedData: Array<{ niveau: string, classe: string, matiere: string , name : string }> = [];
 
-  constructor(private enseignantService: EnseignantService, private fb: FormBuilder) {}
+  constructor(
+    private enseignantService: EnseignantService,
+    private classService: ClassService, // Inject ClassService
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.fetchAllEnseignants();
+   // this.fetchAllClasses(); // Fetch classes on initialization
+
     this.initEnseignantForm();
+  }
+
+
+  onAddClick() {
+ 
+    console.log(this.levelData);
+    
+    if (this.levelData.niveau && this.levelData.classe && this.levelData.matiere && this.levelData.name) {
+      // Push a copy of the current levelData into storedData
+      this.storedData.push({ ...this.levelData });
+      
+      // Clear the form
+  
+    }
+  }
+
+  // Function to delete a row from the table
+  onDeleteClick(index: number) {
+    this.storedData.splice(index, 1);
+  }
+
+  onClasseChange(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedIndex = selectElement.selectedIndex;
+    const selectedText = selectElement.options[selectedIndex].text; // Get the text content of the selected option
+
+    console.log(selectedText);
+    
+    this.levelData.classe=selectedValue
+    this.levelData.name=selectedText
+
+  
+  }
+
+    onMatiereChange(event: Event) {
+      const selectedValue = (event.target as HTMLSelectElement).value;
+   
+      
+      this.levelData.matiere=selectedValue
+    }
+
+  onLevelChange(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+ 
+    
+    this.levelData.niveau=selectedValue
+    console.log(this.levelData.niveau);
+    if (this.levelData.niveau) {
+    
+      
+      this.classService.getClassesByNiveau(this.levelData.niveau).subscribe({
+        next: (data) => {
+          this.classes = data.classes;
+          console.log(this.classes);
+           // Store the classes in the component
+        },
+        error: (error) => {
+          console.error('Error fetching classes', error);
+        }
+      });
+    }
+      
+    
+  }
+
+
+
+
+  fetchAllClasses(): void {
+    this.classService.getAllClasses().subscribe({
+      next: (data) => {
+        this.classes = data.classes; // Store the classes in the component
+      },
+      error: (error) => {
+        console.error('Error fetching classes', error);
+      }
+    });
   }
 
   fetchAllEnseignants(): void {
