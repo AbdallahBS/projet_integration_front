@@ -1,0 +1,75 @@
+.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.custom-success-alert {
+    display: flex;
+    align-items: center;
+    background-color: #d4edda;
+    /* Light green background */
+    color: #155724;
+    /* Dark green text */
+    border: 1px solid #c3e6cb;
+    /* Green border */
+    border-radius: 0.25rem;
+    padding: 1rem 1.5rem;
+    /* Increase padding */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Larger shadow */
+    font-size: 1.25rem;
+    /* Increase font size */
+    animation: slideIn 0.5s ease forwards, fadeOut 0.5s ease forwards 2.5s;
+    /* Animation */
+    width: 350px;
+    /* Set a fixed width for horizontal size */
+    max-width: 90%;
+    /* Ensure it is responsive */
+}
+
+.custom-fail-alert {
+    display: flex;
+    align-items: center;
+    background-color: #edd4d4;
+    /* Light green background */
+    color: #571515;
+    /* Dark green text */
+    border: 1px solid #e6c3c3;
+    /* Green border */
+    border-radius: 0.25rem;
+    padding: 1rem 1.5rem;
+    /* Increase padding */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Larger shadow */
+    font-size: 1.25rem;
+    /* Increase font size */
+    animation: slideIn 0.5s ease forwards, fadeOut 0.5s ease forwards 2.5s;
+    /* Animation */
+    width: 350px;
+    /* Set a fixed width for horizontal size */
+    max-width: 90%;
+    /* Ensure it is responsive */
+}
+
+.success-alert {
+    /* Additional styles for success alert */
+    color: #155724;
+    /* Dark green text */
+}
+
+.fail-alert {
+    /* Additional styles for success alert */
+    color: #b62c2c;
+    /* Dark green text */
+}
+
+.text {
+    display: block;
+    /* or inline-block */
+    text-align: right;
+    /* Align text to the right */
+    width: 100%;
+    /* Optional: ensures it takes the full width of the container */
+}

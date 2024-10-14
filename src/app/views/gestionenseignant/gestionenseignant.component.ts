@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EnseignantService } from '../../services/enseignant.service'; // New service for enseignants
 import { Enseignant } from '../../models/enseignant.model'; // Update to Enseignant model
 import { CommonModule } from '@angular/common';
 import { Class } from '../../models/class.model'; // Import Class model
 import { ClassService } from '../../services/class.service'; // Import the ClassService
+import { EnseignantClassesService } from '../../services/enseignantClasses.service'; // Import the ClassService
+import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
+
 
 import {
   AvatarComponent,
@@ -39,7 +42,8 @@ import {
     CardFooterComponent,
     CardGroupComponent,
     CardImgDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   templateUrl: './gestionenseignant.component.html',
   styleUrls: ['./gestionenseignant.component.scss']
@@ -48,7 +52,7 @@ export class GestionenseignantComponent implements OnInit {
   selectedEnseignantId: number | null | undefined = null;
   enseignants: Enseignant[] = [];
   classes: Class[] = []; // Store classes
-  levelData = { niveau: '', classe: '' ,matiere :'' , name:''};
+  levelData = { niveau: '', classe: '', matiere: '', name: '' };
 
   enseignantForm!: FormGroup;
   showForm = false;
@@ -56,34 +60,70 @@ export class GestionenseignantComponent implements OnInit {
   searchName: string = '';
   searchClass: string = '';
   filteredEnseignants: Enseignant[] = [];
+  newEntryExist = false;
 
-  storedData: Array<{ niveau: string, classe: string, matiere: string , name : string }> = [];
+  storedData: Array<{ niveau: string, classe: string, matiere: string, name: string }> = [];
 
   constructor(
     private enseignantService: EnseignantService,
     private classService: ClassService, // Inject ClassService
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
+    private enseignantClassesService: EnseignantClassesService
+  ) {
+    translate.setDefaultLang('ar');
+    translate.use('ar');
+  }
 
   ngOnInit(): void {
     this.fetchAllEnseignants();
-   // this.fetchAllClasses(); // Fetch classes on initialization
-
     this.initEnseignantForm();
   }
 
 
-  onAddClick() {
- 
-    console.log(this.levelData);
-    
-    if (this.levelData.niveau && this.levelData.classe && this.levelData.matiere && this.levelData.name) {
-      // Push a copy of the current levelData into storedData
-      this.storedData.push({ ...this.levelData });
-      
-      // Clear the form
-  
+  onAddClick(): void {
+    const formValue = this.enseignantForm.getRawValue();
+    const selectedClass = this.classes.find(c => c.id === formValue.classe);
+
+    const newEntry = {
+      niveau: formValue.niveau,
+      classe: formValue.classe,
+      matiere: formValue.matiere,
+      name: selectedClass ? selectedClass.nomDeClasse : ''
+    };
+
+    const entryExists = this.storedData.some(entry =>
+      entry.niveau === newEntry.niveau &&
+      entry.classe === newEntry.classe &&
+      entry.matiere === newEntry.matiere
+    );
+
+    if (entryExists) {
+      console.log('Entry already exists. Skipping addition.');
+      this.newEntryExist = true;
+      setTimeout(() => {
+        this.newEntryExist = false;
+      }, 2000);
+      return;
     }
+
+    this.storedData.push(newEntry);
+
+    console.log('Added new entry:', newEntry);
+    console.log('Updated storedData:', this.storedData);
+
+    // Reset only level, class, and subject fields
+    this.enseignantForm.patchValue({
+      niveau: '',
+      classe: '',
+      matiere: ''
+    });
+    this.enseignantForm.get('classe')?.disable();
+    this.enseignantForm.get('matiere')?.disable();
+
+    this.classes = [];
+    this.cdr.detectChanges();
   }
 
   // Function to delete a row from the table
@@ -91,63 +131,36 @@ export class GestionenseignantComponent implements OnInit {
     this.storedData.splice(index, 1);
   }
 
-  onClasseChange(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedIndex = selectElement.selectedIndex;
-    const selectedText = selectElement.options[selectedIndex].text; // Get the text content of the selected option
-
-    console.log(selectedText);
-    
-    this.levelData.classe=selectedValue
-    this.levelData.name=selectedText
-
-  
+  onClasseChange(): void {
+    this.enseignantForm.patchValue({ matiere: '' });
+    this.enseignantForm.get('matiere')?.enable();
   }
 
-    onMatiereChange(event: Event) {
-      const selectedValue = (event.target as HTMLSelectElement).value;
-   
-      
-      this.levelData.matiere=selectedValue
-    }
+  onLevelChange(): void {
+    const niveau = this.enseignantForm.get('niveau')?.value;
 
-  onLevelChange(event: Event) {
-    const selectedValue = (event.target as HTMLSelectElement).value;
- 
-    
-    this.levelData.niveau=selectedValue
-    console.log(this.levelData.niveau);
-    if (this.levelData.niveau) {
-    
-      
-      this.classService.getClassesByNiveau(this.levelData.niveau).subscribe({
+    // Reset classes array
+    this.classes = [];
+
+    // Reset and disable classe and matiere fields
+    this.enseignantForm.patchValue({
+      classe: '',
+      matiere: ''
+    });
+    this.enseignantForm.get('classe')?.disable();
+    this.enseignantForm.get('matiere')?.disable();
+
+    if (niveau) {
+      this.classService.getClassesByNiveau(niveau).subscribe({
         next: (data) => {
           this.classes = data.classes;
-          console.log(this.classes);
-           // Store the classes in the component
+          this.enseignantForm.get('classe')?.enable();
         },
         error: (error) => {
           console.error('Error fetching classes', error);
         }
       });
     }
-      
-    
-  }
-
-
-
-
-  fetchAllClasses(): void {
-    this.classService.getAllClasses().subscribe({
-      next: (data) => {
-        this.classes = data.classes; // Store the classes in the component
-      },
-      error: (error) => {
-        console.error('Error fetching classes', error);
-      }
-    });
   }
 
   fetchAllEnseignants(): void {
@@ -167,18 +180,34 @@ export class GestionenseignantComponent implements OnInit {
       nom: ['', [Validators.required]],
       prenom: ['', [Validators.required]],
       numerotel: ['', [Validators.required]],
-      classe: ['', [Validators.required]],
+      niveau: [''],
+      classe: [''],
+      matiere: [''],
     });
+
+    // Disable classe and matiere fields initially
+    this.enseignantForm.get('classe')?.disable();
+    this.enseignantForm.get('matiere')?.disable();
   }
 
   onSubmit(): void {
+    Object.keys(this.enseignantForm.controls).forEach(key => {
+      const control = this.enseignantForm.get(key);
+      console.log(`${key} valid:`, control?.valid, 'value:', control?.value);
+    });
+
+    console.log(this.enseignantForm.valid);
+
     if (this.enseignantForm.valid) {
       this.isSubmitting = true;
       const enseignantData = this.enseignantForm.value;
-  
+
       // Convert the classe string to an array if necessary
-      enseignantData.classe = enseignantData.classe.split(',').map((classe: string) => classe.trim());
-  
+      enseignantData.classes = this.storedData.map(data => ({
+        classeId: data.classe, // Assuming storedData contains the class IDs
+        matiere: data.matiere    // Assuming storedData contains the subjects (matiere)
+      }));
+
       if (this.selectedEnseignantId) {
         // Update existing enseignant
         this.enseignantService.updateEnseignant(this.selectedEnseignantId, enseignantData).subscribe({
@@ -196,10 +225,14 @@ export class GestionenseignantComponent implements OnInit {
       } else {
         // Add a new enseignant
         this.enseignantService.addEnseignant(enseignantData).subscribe({
-          next: () => {
+          next: (response) => {
             this.isSubmitting = false;
             this.showForm = false;
             this.fetchAllEnseignants();
+
+            console.log("Full Response:", response.enseignant.id, enseignantData.classes);
+
+            this.createEnseignantClasseRelations(String(response.enseignant.id), enseignantData.classes);
           },
           error: (error) => {
             this.isSubmitting = false;
@@ -209,14 +242,46 @@ export class GestionenseignantComponent implements OnInit {
       }
     }
   }
-  
+
+  createEnseignantClasseRelations(enseignantId: string, classes: Array<{ classe: string, matiere: string }>): void {
+    this.enseignantClassesService.addEnseignantClasses(enseignantId, classes).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.showForm = false;
+        this.fetchAllEnseignants();
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        console.error('Error creating enseignantClasse relations', error);
+      }
+    });
+  }
+
+  cancelSubmitting() {
+    this.showForm = false
+    this.storedData.splice(0, this.storedData.length);
+
+    this.enseignantForm.patchValue({
+      nom: '',
+      prenom: '',
+      numerotel: '',
+      niveau: '',
+      classe: '',
+      matiere: ''
+    });
+    this.enseignantForm.get('classe')?.disable();
+    this.enseignantForm.get('matiere')?.disable();
+
+    this.classes = [];
+  }
+
 
   deleteEnseignant(enseignantId: number | undefined): void {
     if (enseignantId === undefined) {
       console.error('Enseignant ID is undefined');
       return;  // Prevent further execution if id is undefined
     }
-  
+
     if (confirm('هل أنت متأكد أنك تريد حذف هذا المدرس؟')) {
       this.enseignantService.deleteEnseignant(enseignantId).subscribe({
         next: () => {
@@ -228,7 +293,7 @@ export class GestionenseignantComponent implements OnInit {
       });
     }
   }
-  
+
 
   editEnseignant(enseignant: Enseignant): void {
     this.enseignantForm.patchValue({
@@ -242,13 +307,13 @@ export class GestionenseignantComponent implements OnInit {
   }
 
   filterEnseignants(): void {
-    this.filteredEnseignants = this.enseignants.filter(enseignant => 
-      enseignant.nom.toLowerCase().includes(this.searchName.toLowerCase()) 
-      
+    this.filteredEnseignants = this.enseignants.filter(enseignant =>
+      enseignant.nom.toLowerCase().includes(this.searchName.toLowerCase())
+
     );
   }
   filterEnseignantsByClasse(): void {
-    this.filteredEnseignants = this.enseignants.filter(enseignant => 
+    this.filteredEnseignants = this.enseignants.filter(enseignant =>
 
       enseignant.classe.toLowerCase().includes(this.searchClass.toLowerCase())
     );

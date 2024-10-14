@@ -29,5 +29,8 @@
     "show": "عرض",
     "hide": "إخفاء",
     "updateProfile": "تحديث الملف الشخصي"
+  },
+  "GESTIONENSEIGNANT":{
+    "ROWEXIST":"هذا المستوى موجود بالفعل"
   }
 }
