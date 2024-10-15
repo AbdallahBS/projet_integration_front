@@ -1,3 +1,6 @@
+<!-- src/app/dashboard/dashboard.component.html -->
+
+
 <app-widgets-dropdown />
 <c-card class="my-4">
 
@@ -6,70 +9,49 @@
 
 <app-widgets-brand [withCharts]="true" />
 
+
+
 <c-row>
   <c-col xs>
     <c-card class="mb-4">
       <c-card-body>
-        <table
-          [hover]="true"
-          [responsive]="true"
-          [striped]="true"
-          align="middle"
-          cTable
-          class="mb-0 border"
-        >
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead class="text-nowrap text-truncate">
-          <tr>
-            <th class="bg-body-tertiary text-center ">
-              <svg cIcon name="cilPeople"></svg>
-            </th>
-            <th class="bg-body-tertiary">إسم المدير</th>
-            <th class="bg-body-tertiary text-center">الرتبة</th>
-            <th class="bg-body-tertiary">النشاط</th>
-            <th class="bg-body-tertiary text-center">التوقيت</th>
-            <th class="bg-body-tertiary">نشط</th>
-          </tr>
+            <tr>
+              <th class="bg-body-tertiary text-center">
+                <svg cIcon name="cilPeople"></svg>
+              </th>
+              <th class="bg-body-tertiary">إسم المدير</th>
+              <th class="bg-body-tertiary text-center">الرتبة</th>
+              <th class="bg-body-tertiary">النشاط</th>
+              <th class="bg-body-tertiary text-center">التوقيت</th>
+            </tr>
           </thead>
           <tbody>
-            @for (user of users; track user.name; let i = $index) {
-              <tr>
-                <td class="text-center">
-                  <c-avatar [size]="'md'" src="{{ user.avatar }}" status="{{ user.status }}" />
-                </td>
-                <td >
-                  <div>{{ user.name }}</div>
-                  <div class="small text-body-secondary text-nowrap">
-                  <span>
-                    {{ user.state }} 
-                  </span>
+            <tr *ngFor="let user of users">
+              <td class="text-center">
+                <c-avatar [size]="'md'" src="{{ user.avatar }}"  />
+              </td>
+              <td>
+                <div>{{ user.name }}</div>
+              </td>
+              <td class="text-center">
+                <div>{{ user.role }}</div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-between">
+                  <div class="float-start">
+                    <div>{{ user.activity }}</div>
                   </div>
-                </td>
-                <td class="text-center">
-                  <div>{{ user.country }}</div>
-                 
-                  
-                </td>
-                <td>
-                  <div class="d-flex justify-content-between">
-                    <div class="float-start">
-                      <div>{{ user.activity }}</div>
-
-                    </div>
-                    
-                  </div>
-                </td>
-                <td class="text-center">
-                  <div>{{ user.period }}</div>
-                </td>
-                <td>
-                  <div class="fw-semibold text-nowrap">{{ user.payment }}</div>
-                </td>
-              </tr>
-            }
+                </div>
+              </td>
+              <td class="text-center">
+                <div>{{ user.time }}</div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </c-card-body>
     </c-card>
   </c-col>
 </c-row>
-

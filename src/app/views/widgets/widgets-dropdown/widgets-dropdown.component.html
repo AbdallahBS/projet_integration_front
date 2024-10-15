@@ -5,53 +5,18 @@
       [title]="'العدد الجملي للتلاميد'"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        26
-       
+        {{ elevesCount }}
       </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
-            <svg cIcon name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li>
-              <hr cDropdownDivider>
-            </li>
-            <li>
-              <button cDropdownItem>Separated link</button>
-            </li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-    
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
     <c-widget-stat-a
-      [title]="'عدد الميديرين'"
+      [title]="'العدد الجملي للمديرين'"
       color="primary"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>26</span>
-        
+        {{ adminsCount }}
       </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
-            <svg cIcon name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-     
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
@@ -60,23 +25,8 @@
       color="primary"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>26</span>
-       
+        {{ enseignantsCount }}
       </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
-            <svg cIcon name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-      
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="3">
@@ -85,23 +35,8 @@
       color="primary"
     >
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span>26</span>
-       
+        {{ classesCount }}
       </ng-template>
-      <ng-template cTemplateId="widgetActionTemplate">
-        <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
-            <svg cIcon name="cilOptions"></svg>
-          </button>
-          <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
-            <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
-            <li><a [disabled]="true" [routerLink]="[]" cDropdownItem>Disabled</a></li>
-          </ul>
-        </c-dropdown>
-      </ng-template>
-     
     </c-widget-stat-a>
   </c-col>
 </c-row>
