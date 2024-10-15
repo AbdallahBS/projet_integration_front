@@ -60,6 +60,7 @@ export class GestionenseignantComponent implements OnInit {
   searchName: string = '';
   searchClass: string = '';
   filteredEnseignants: Enseignant[] = [];
+  filteredClasses: any[] = [];
   newEntryExist = false;
 
   storedData: Array<{ niveau: string, classe: string, matiere: string, name: string }> = [];
@@ -95,8 +96,8 @@ export class GestionenseignantComponent implements OnInit {
 
     const entryExists = this.storedData.some(entry =>
       entry.niveau === newEntry.niveau &&
-      entry.classe === newEntry.classe &&
-      entry.matiere === newEntry.matiere
+      entry.classe === newEntry.classe
+      //&& entry.matiere === newEntry.matiere
     );
 
     if (entryExists) {
@@ -166,8 +167,8 @@ export class GestionenseignantComponent implements OnInit {
   fetchAllEnseignants(): void {
     this.enseignantService.getAllEnseignants().subscribe({
       next: (data) => {
-        this.enseignants = data;
-        this.filteredEnseignants = data;
+        this.enseignants = data; // Store the fetched enseignants
+        this.filteredEnseignants = data; // If you have a filter mechanism
       },
       error: (error) => {
         console.error('Error fetching enseignants', error);
@@ -209,13 +210,24 @@ export class GestionenseignantComponent implements OnInit {
       }));
 
       if (this.selectedEnseignantId) {
+        console.log("Updating...");
+
         // Update existing enseignant
         this.enseignantService.updateEnseignant(this.selectedEnseignantId, enseignantData).subscribe({
           next: () => {
-            this.isSubmitting = false;
-            this.showForm = false;
-            this.fetchAllEnseignants();
-            this.selectedEnseignantId = null;
+
+            this.enseignantClassesService.updateEnseignantClasses(String(this.selectedEnseignantId), enseignantData).subscribe({
+              next: () => {
+                console.log('Successfully updated EnseignantClasses');
+                this.isSubmitting = false;
+                this.showForm = false;
+                this.fetchAllEnseignants();
+                this.selectedEnseignantId = null;
+              },
+              error: (error) => {
+                console.error('Error updating EnseignantClasses', error);
+              }
+            });
           },
           error: (error) => {
             this.isSubmitting = false;
@@ -223,11 +235,13 @@ export class GestionenseignantComponent implements OnInit {
           }
         });
       } else {
+        console.log("Creating...");
         // Add a new enseignant
         this.enseignantService.addEnseignant(enseignantData).subscribe({
           next: (response) => {
             this.isSubmitting = false;
             this.showForm = false;
+            this.selectedEnseignantId = null;
             this.fetchAllEnseignants();
 
             console.log("Full Response:", response.enseignant.id, enseignantData.classes);
@@ -259,6 +273,7 @@ export class GestionenseignantComponent implements OnInit {
 
   cancelSubmitting() {
     this.showForm = false
+    this.selectedEnseignantId = null;
     this.storedData.splice(0, this.storedData.length);
 
     this.enseignantForm.patchValue({
@@ -300,10 +315,19 @@ export class GestionenseignantComponent implements OnInit {
       nom: enseignant.nom,
       prenom: enseignant.prenom,
       numerotel: enseignant.numerotel,
-      classe: enseignant.classe,
+      // Assuming we need to set the classe field based on storedData
+      classe: enseignant.classes.map(c => c.id)
     });
+
     this.showForm = true;
-    this.selectedEnseignantId = enseignant.id;
+    this.selectedEnseignantId = enseignant.id; // Store the selected enseignant ID
+
+    this.storedData = enseignant.classes.map(classe => ({
+      niveau: classe.niveau,
+      classe: classe.id,
+      matiere: classe.EnseignantClasse.matiere,
+      name: classe.nomDeClasse
+    }));
   }
 
   filterEnseignants(): void {

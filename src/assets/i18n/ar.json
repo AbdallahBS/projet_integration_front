@@ -30,7 +30,7 @@
     "hide": "إخفاء",
     "updateProfile": "تحديث الملف الشخصي"
   },
-  "GESTIONENSEIGNANT":{
-    "ROWEXIST":"هذا المستوى موجود بالفعل"
+  "GESTIONENSEIGNANT": {
+    "ROWEXIST": "لا يمكن تكرار نفس الصف مرتين"
   }
 }
