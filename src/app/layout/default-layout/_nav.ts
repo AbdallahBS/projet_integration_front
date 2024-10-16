@@ -17,26 +17,26 @@ export const navItems: INavData[] = [
     name: 'إدارة المديرين',
     url: '/gestionadmins',
     iconComponent: { name: 'cil-notes' },
-    
+
   },
   {
     name: 'إدارة المدرسين',
     url: '/gestionenseignant',
     iconComponent: { name: 'cil-puzzle' },
-   
+
   },
   {
     name: 'إدارة الأقسام',
     url: '/gestion-level',
     iconComponent: { name: 'cil-puzzle' },
-   
+
   },
   {
     name: 'إدارة التلاميذ',
     url: '/gestioneleve',
     iconComponent: { name: 'cil-cursor' },
-   
+
   },
 
-  
+
 ];

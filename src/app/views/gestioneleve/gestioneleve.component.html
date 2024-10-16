@@ -3,7 +3,7 @@
   <c-card class="mb-4">
 
     <c-card-header>
-      <strong>إدارة التلاميد</strong>
+      <strong>إدارة التلاميذ</strong>
     </c-card-header>
 
     <c-card-body>
@@ -13,7 +13,7 @@
       <div class="d-flex justify-content-between mb-3">
         <div class="text-end">
           <button type="button" class="btn btn-primary" (click)="showForm = !showForm">
-            إضافة طالب
+            إضافة تلميذ
           </button>
         </div>
         <div class="d-flex">
@@ -29,7 +29,7 @@
       <c-card *ngIf="showForm" class="mb-4 p-3"
         style="background-color: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 10px;">
         <c-card-header class="bg-light text-center">
-          <strong>إضافة طالب جديد</strong>
+          <strong>إضافة تلميذ جديد</strong>
         </c-card-header>
         <c-card-body>
           <form [formGroup]="eleveForm" (ngSubmit)="onSubmit()">
@@ -43,9 +43,9 @@
             </div>
             <!-- Dropdown for Classe -->
             <div class="mb-3">
-              <label for="classe" class="form-label">الصف</label>
+              <label for="classe" class="form-label">المستوى</label>
               <select id="classe" formControlName="classe" class="form-select" data-mdb-select-init>
-                <option value="" disabled selected>اختر الصف</option>
+                <option value="" disabled selected>اختر المستوى</option>
                 <option value="1">سابعة أساسي</option>
                 <option value="2">ثامنة أساسي</option>
                 <option value="3"> تاسعة أساسي</option>
@@ -54,12 +54,12 @@
 
             <!-- Dropdown for Niveau -->
             <div class="mb-3">
-              <label for="niveau" class="form-label">المستوى</label>
+              <label for="niveau" class="form-label">الصف</label>
               <select id="niveau" formControlName="niveau" class="form-select" data-mdb-select-init>
-                <option value="" disabled selected>اختر المستوى</option>
-                <option value="beginner">مبتدئ</option>
-                <option value="intermediate">متوسط</option>
-                <option value="advanced">متقدم</option>
+                <option value="" disabled selected>اختر الصف</option>
+                <option value="beginner">?</option>
+                <option value="intermediate">?</option>
+                <option value="advanced">?</option>
               </select>
             </div>
 
