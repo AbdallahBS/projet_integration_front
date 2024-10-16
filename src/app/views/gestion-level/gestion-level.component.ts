@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { ClassService } from '../../services/class.service';
 import { Class } from '../../models/class.model';
 import { CommonModule } from '@angular/common';
+import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
+
 import {
   CardComponent,
   CardBodyComponent,
@@ -28,6 +30,7 @@ import {
     CardTextDirective,
     CardSubtitleDirective,
     CardFooterComponent,
+    TranslateModule,
   ],
   templateUrl: './gestion-level.component.html',
   styleUrls: ['./gestion-level.component.scss'],
@@ -42,6 +45,7 @@ export class LevelComponent implements OnInit {
   isSubmitting = false;
   searchName: string = '';
   showEnseignants: boolean = false; // To control the display of enseignants
+  newEntryExist = false;
 
   showStudents = false;
   filteredClasses: Class[] = [];
@@ -58,7 +62,15 @@ export class LevelComponent implements OnInit {
 
   };
 
-  constructor(private classService: ClassService) {}
+  constructor(private classService: ClassService
+    ,    private translate: TranslateService,
+
+  ) {
+
+    translate.setDefaultLang('ar');
+    translate.use('ar');
+    
+  }
 
   ngOnInit(): void {
     this.fetchAllClasses();
@@ -154,7 +166,14 @@ export class LevelComponent implements OnInit {
             this.resetForm(); // Reset form after submission
           },
           error: (error) => {
-            console.error('Error adding class:', error);
+            if (error.status === 409) {
+              this.newEntryExist = true;
+              setTimeout(() => {
+                this.newEntryExist = false;
+              }, 3000); // Show alert if the class already exists
+            } else {
+              console.error('Error creating class', error);
+            }
           },
           complete: () => {
             this.isSubmitting = false;

@@ -18,7 +18,7 @@ export const routes: Routes = [
 
       {
         path: 'dashboard',
-        canActivate: [AuthGuard],// Protect the dashboard route
+       // canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },

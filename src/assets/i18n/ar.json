@@ -32,5 +32,15 @@
   },
   "GESTIONENSEIGNANT": {
     "ROWEXIST": "لا يمكن تكرار نفس الصف مرتين"
+
+  },
+  "GESTIONETUDIANT": {
+    "ROWEXIST": "  لايمكن تسجيل التلميد مرتين "
+
+  },
+
+  "GESTIONCLASSE": {
+    "ROWEXIST": "  لايمكن إنشاء قسم مرتين "
+
   }
 }

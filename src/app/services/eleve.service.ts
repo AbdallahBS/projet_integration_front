@@ -66,11 +66,22 @@ export class EleveService {
     };
     return this.http.post<Eleve>(this.apiUrl, payload);
   }
-  deleteEleve(eleveId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${eleveId}`);
+  deleteEleve(eleveId: string): Observable<void> {
+    const token = this.getLoggedInUser();
+    const headers = new HttpHeaders({
+      'adminId': token.userId,   // Use userId from the token
+      'adminRole': token.userRole // Use userRole from the token
+    });
+    return this.http.delete<void>(`${this.apiUrl}/${eleveId}`, {headers});
   }
-  updateEleve(id: number, eleve: Eleve): Observable<Eleve> {
-    return this.http.put<Eleve>(`${this.apiUrl}/${id}`, eleve);
+  updateEleve(id: string, eleve: Eleve): Observable<Eleve> {
+    const token = this.getLoggedInUser();
+    const payload = {
+      ...eleve, // Spread the eleve data
+      adminId: token.userId, // Use userId from the token
+      adminRole: token.userRole // Use userRole from the token
+    };
+    return this.http.put<Eleve>(`${this.apiUrl}/${id}`, payload);
   }
  
 }

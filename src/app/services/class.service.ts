@@ -1,6 +1,6 @@
 // class.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Class } from  '../models/class.model'; // Create a model for Class
 
@@ -61,11 +61,15 @@ export class ClassService {
   }
 
   deleteClass(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/classes/${id}`);
+    const token = this.getLoggedInUser();
+    const headers = new HttpHeaders({
+      'adminId': token.userId,   // Use userId from the token
+      'adminRole': token.userRole // Use userRole from the token
+    });
+    return this.http.delete(`${this.apiUrl}/classes/${id}`, {headers});
   }
   addClass(classData: { nomDeClasse: string; niveau: string }): Observable<any> {
     const token = this.getLoggedInUser();
-console.log("hmmmm",token.userId);
 
     const payload = {
       
@@ -78,7 +82,13 @@ console.log("hmmmm",token.userId);
   }
 
   updateClass(id: string, classData: Class): Observable<any> {
-    return this.http.put(`${this.apiUrl}/classes/${id}`, classData);
+    const token = this.getLoggedInUser();
+    const payload = {
+      ...classData, // Spread the eleve data
+      adminId: token.userId, // Use userId from the token
+      adminRole: token.userRole // Use userRole from the token
+    };
+    return this.http.put(`${this.apiUrl}/classes/${id}`, payload);
   }
   
 }

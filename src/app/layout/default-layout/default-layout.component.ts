@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
-
+import { AuthService } from '../../services/auth.services'; // Adjust the path as needed
 import { IconDirective } from '@coreui/icons-angular';
 import {
   ContainerComponent,
@@ -17,7 +17,7 @@ import {
 
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
-
+import { adminNavItems } from '../../navigation/nav.admin'; // Admin nav
 function isOverflown(element: HTMLElement) {
   return (
     element.scrollHeight > element.clientHeight ||
@@ -49,8 +49,11 @@ function isOverflown(element: HTMLElement) {
   ]
 })
 export class DefaultLayoutComponent {
-  public navItems = navItems;
-
+  navItems: any[]; // Type can be adjusted as needed
+  constructor(private authService: AuthService) {
+    const user = this.authService.getLoggedInUser();
+    this.navItems = user && user.userRole === 'superadmin' ? navItems : adminNavItems;
+  }
   onScrollbarUpdate($event: any) {
     // if ($event.verticalUsed) {
     // console.log('verticalUsed', $event.verticalUsed);

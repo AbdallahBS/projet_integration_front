@@ -42,27 +42,25 @@
               <input type="text" id="prenom" formControlName="prenom" class="form-control" placeholder="أدخل اللقب">
             </div>
             <!-- Dropdown for Classe -->
-            <div class="mb-3">
-              <label for="classe" class="form-label">المستوى</label>
-              <select id="classe" formControlName="classe" class="form-select" data-mdb-select-init>
-                <option value="" disabled selected>اختر المستوى</option>
-                <option value="1">سابعة أساسي</option>
-                <option value="2">ثامنة أساسي</option>
-                <option value="3"> تاسعة أساسي</option>
-              </select>
-            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="niveau" class="form-label">المستوى</label>
+                <select id="niveau" formControlName="niveau" class="form-select" (change)="onLevelChange()">
+                  <option value="" disabled selected>اختر المستوى</option>
+                  <option value="7">سابعة أساسي</option>
+                  <option value="8">ثامنة أساسي</option>
+                  <option value="9">تاسعة أساسي</option>
+                </select>
+              </div>
 
-            <!-- Dropdown for Niveau -->
-            <div class="mb-3">
-              <label for="niveau" class="form-label">الصف</label>
-              <select id="niveau" formControlName="niveau" class="form-select" data-mdb-select-init>
-                <option value="" disabled selected>اختر الصف</option>
-                <option value="beginner">?</option>
-                <option value="intermediate">?</option>
-                <option value="advanced">?</option>
-              </select>
-            </div>
-
+              <div class="col-md-3 mb-3">
+                <label for="classe" class="form-label">الصف</label>
+                <select id="classe" formControlName="classe" class="form-select" (change)="onClasseChange()">
+                  <option value="" disabled selected>اختر الصف</option>
+                  <option *ngFor="let classe of classes" [value]="classe.id">{{ classe.nomDeClasse }}</option>
+                </select>
+              </div>
+            </div>          
 
             <div class="text-end">
               <button type="submit" class="btn btn-success" [disabled]="isSubmitting">
@@ -72,7 +70,32 @@
                 إلغاء
               </button>
             </div>
+            <div *ngIf="newEntryExist" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+              <div style="
+                background-color: #f8d7da; 
+                color: #721c24; 
+                border: 1px solid #f5c6cb; 
+                padding: 15px; 
+                border-radius: 5px; 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+                transition: opacity 0.5s ease;">
+                <span style="margin-right: 10px;">{{ 'GESTIONETUDIANT.ROWEXIST' | translate }}</span>
+                <button style="
+                  background: none; 
+                  border: none; 
+                  color: #721c24; 
+                  font-size: 20px; 
+                  cursor: pointer;">
+                  &times;
+                </button>
+              </div>
+            </div>
+            
           </form>
+          
         </c-card-body>
       </c-card>
 
@@ -83,7 +106,7 @@
             <th>الاسم</th>
             <th>الصف</th>
             <th>المستوى</th>
-            <th>الحالة</th>
+          
             <th>الإجراءات</th>
           </tr>
         </thead>
@@ -91,30 +114,29 @@
           <tr *ngFor="let eleve of filteredEleves">
             <td>
               <div class="d-flex align-items-center">
-                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/student.png" status="success"
+                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/student.png" 
                   textColor="primary" alt="User avatar"></c-avatar>
                 <div class="ms-3">
                   <p class="fw-bold mb-1">{{ eleve.nom }} {{ eleve.prenom }}</p>
-                  <p class="text-muted mb-0">{{ eleve.classe }}</p>
+                  <p class="text-muted mb-0">{{ eleve.classe.nomDeClasse }}</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="fw-normal mb-1">{{ eleve.classe }}</p>
+              <p class="fw-normal mb-1">{{ eleve.classe.nomDeClasse }}</p> <!-- Display nomDeClasse -->
             </td>
             <td>
-              <p class="fw-normal mb-1">{{ eleve.niveau }}</p>
+              <p class="fw-normal mb-1">{{ eleve.classe.niveau }}</p> <!-- Display niveau -->
             </td>
+            
             <td>
-              <span class="badge bg-success">نشط</span>
-            </td>
-            <td>
-              <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editEleve(eleve)">تعديل</button>
-              <button type="button" class="btn btn-link btn-sm btn-rounded text-danger"
+              <button type="button" class="btn btn-sm btn-outline-secondary me-2" (click)="editEleve(eleve)">تعديل</button>
+              <button type="button" class="btn btn-sm btn-outline-danger"
                 (click)="deleteEleve(eleve.id)">حذف</button>
             </td>
           </tr>
         </tbody>
+        
 
       </table>
 

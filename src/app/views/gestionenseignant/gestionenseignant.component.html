@@ -148,7 +148,7 @@
           <tr *ngFor="let enseignant of filteredEnseignants">
             <td>
               <div class="d-flex align-items-center">
-                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/tch.png" status="success"
+                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/tch.png" 
                   textColor="primary" alt="User avatar"></c-avatar>
                 <div class="ms-3">
                   <p class="fw-bold mb-1">{{ enseignant.nom }} {{ enseignant.prenom }}</p>
@@ -163,9 +163,9 @@
               <p class="fw-normal mb-1">{{ enseignant.numerotel }}</p>
             </td>
             <td>
-              <button type="button" class="btn btn-link btn-sm btn-rounded"
+              <button type="button" class="btn btn-sm btn-outline-secondary me-2"
                 (click)="editEnseignant(enseignant)">تعديل</button>
-              <button type="button" class="btn btn-link btn-sm btn-rounded text-danger"
+              <button type="button" class="btn btn-sm btn-outline-danger" 
                 (click)="deleteEnseignant(enseignant.id)">حذف</button>
             </td>
           </tr>

@@ -55,12 +55,12 @@ export class LoginComponent {
       .subscribe(
         response => {
           const user = this.authService.getLoggedInUser();
-          if (user && user.userRole === 'superadmin') {
+          if (user && (user.userRole === 'superadmin' ||user.userRole === 'admin' )) {
             this.isLoginSucceed = true;
             setTimeout(() => {
               this.isLoginSucceed = null;
               this.router.navigate(['/dashboard']);
-            }, 3000);
+            }, 2000);
           } /**else {
             this.isLoginSucceed = false;
             setTimeout(() => {

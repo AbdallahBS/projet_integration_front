@@ -14,7 +14,9 @@ export class AuthGuard implements CanActivate {
     // Check if the user is logged in and has the 'superadmin' role
     const user = this.authService.getLoggedInUser();
 
-    if (user && user.userRole === 'superadmin') {
+    if (user) {
+      console.log(user);
+      
       // User is logged in and has the 'superadmin' role
       return true;
     } else {
