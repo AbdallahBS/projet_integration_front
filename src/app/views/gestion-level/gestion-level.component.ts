@@ -4,7 +4,8 @@ import { ClassService } from '../../services/class.service';
 import { Class } from '../../models/class.model';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
-
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import {
   CardComponent,
   CardBodyComponent,
@@ -46,7 +47,7 @@ export class LevelComponent implements OnInit {
   searchName: string = '';
   showEnseignants: boolean = false; // To control the display of enseignants
   newEntryExist = false;
-
+  className : string ="";
   showStudents = false;
   filteredClasses: Class[] = [];
   expandedRow: string | null = null;  // Track the expanded row (by class ID)
@@ -105,6 +106,24 @@ export class LevelComponent implements OnInit {
     this.selectedClassId = classId;
     this.showStudents = true;
     this.showEnseignants = false; // Ensure enseignants view is hidden
+    this.classService.getStudentsByClassId(classId).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.classData.students = data; 
+        if (data.length > 0) {
+          this.classData.nomDeClasse = data[0].classe.nomDeClasse; // Store the class name
+          this.classData.niveau = data[0].classe.niveau; // Store the class level if needed
+          this.classData.studentCount = data.length; // Update student count based on the retrieved data
+        }
+        console.log(
+         "a", this.classData.students
+        );
+        
+      },
+      error: (error) => {
+        console.error('Error fetching students for class', error);
+      },
+    }); // Ensure enseignants view is hidden
   }
 
   backToClasses() {
@@ -182,6 +201,66 @@ export class LevelComponent implements OnInit {
       }
     }
   }
+
+  printStudents(): void {
+    const printContent = document.getElementById('studentsTable')?.innerHTML;
+    const currentDate = new Date().toLocaleDateString('ar-TN'); // Get the current date in Arabic format
+    const schoolName = 'المدرسة الإعدادية بقليبية'; // School name
+
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow?.document.write(`
+        <html>
+            <head>
+                <title>طباعة قائمة التلاميذ</title>
+                <style>
+                    /* Add your styles here */
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 20px;
+                    }
+                    h1 {
+                        text-align: center;
+                    }
+                    h2 {
+                        text-align: center;
+                        margin-top: 10px;
+                    }
+                    p {
+                        text-align: center;
+                        font-size: 12px;
+                        margin: 5px 0;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>${schoolName}</h1>
+                <h2>قائمة التلاميذ</h2>
+                <p>حرر بي: ${currentDate}</p>
+                <h3>قسم: ${this.classData.nomDeClasse}</h3>
+                <table>${printContent}</table>
+            </body>
+        </html>
+    `);
+    printWindow?.document.close();
+    printWindow?.focus();
+    printWindow?.print();
+    printWindow?.close();
+}
+
+
+
   deleteClasse(id: string): void {
     if (confirm('Are you sure you want to delete this class?')) {
       this.classService.deleteClass(id).subscribe({
@@ -196,7 +275,32 @@ export class LevelComponent implements OnInit {
     }
   }
 
+  exportToPDF(): void {
+    const data = document.getElementById('studentsTable');
+    if (data) {
+        html2canvas(data).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            const imgWidth = 190;
+            const pageHeight = pdf.internal.pageSize.height;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
 
+            let position = 0;
+
+            pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            pdf.save('قائمة_التلاميذ.pdf');
+        });
+    }
+}
 
 
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Class } from  '../models/class.model'; // Create a model for Class
+import { Student } from  '../models/class.model'; // Create a model for Class
 
 @Injectable({
   providedIn: 'root',
@@ -91,4 +92,8 @@ export class ClassService {
     return this.http.put(`${this.apiUrl}/classes/${id}`, payload);
   }
   
+
+  getStudentsByClassId(classId: string): Observable<Student[]> {
+    return this.http.get<Student[]>(`http://localhost:3000/eleve/classe/${classId}/eleves`);
+}
 }

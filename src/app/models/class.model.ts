@@ -9,6 +9,7 @@ export interface Student {
   id: string;
   nom: string;
   prenom: string;
+  classe: Class; // Include the Class type to reference class details
 
 }
 

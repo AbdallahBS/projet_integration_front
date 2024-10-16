@@ -119,10 +119,37 @@
                   عرض المدرسين
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-secondary me-2"
-                  (click)="viewStudents(cls.id); showEnseignants = false; showStudents = true;">
+                  (click)="viewStudents(cls.id)">
                   عرض التلاميذ
                 </button>
               </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      
+
+      </div>
+      <div *ngIf="showStudents && classData.students.length > 0">
+        <h5> {{ classData.nomDeClasse }} قائمة التلاميذ _ قسم </h5> <!-- Display class name here -->
+        <div class="mb-3">
+          <button type="button" class="btn btn-secondary me-2" (click)="printStudents()">طباعة</button>
+          <button type="button" class="btn btn-secondary" (click)="exportToPDF()">تصدير PDF</button>
+      </div>
+      <table id="studentsTable" class="table table-bordered">
+        <thead>
+            <tr>
+              <th>الإسم</th>
+              <th>اللقب</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of classData.students">
+              <td>{{ student.nom }}</td>
+              <td>{{ student.prenom }}</td>
+             <!-- Format the creation date -->
             </tr>
           </tbody>
         </table>
