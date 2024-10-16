@@ -1,7 +1,7 @@
 // src/app/services/eleve.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Eleve } from '../models/eleve.model'; // Ensure you have an Eleve model
 
@@ -11,7 +11,7 @@ import { Eleve } from '../models/eleve.model'; // Ensure you have an Eleve model
 export class EleveService {
   private apiUrl = 'http://localhost:3000/eleve/eleves'; // Update the port as needed
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
 
   getCookie(name: string): string | null {
@@ -55,33 +55,46 @@ export class EleveService {
   getAllEleves(): Observable<Eleve[]> {
     return this.http.get<Eleve[]>(this.apiUrl);
   }
-  addEleve(eleve: Eleve): Observable<Eleve> {
+  addEleve(eleveData: any): Observable<Eleve> {
     const token = this.getLoggedInUser();
-    
-    console.log(token);
+
+
     const payload = {
-      ...eleve, // Spread the eleve data
+      eleve: eleveData, // Spread the eleve data
       adminId: token.userId, // Use userId from the token
       adminRole: token.userRole // Use userRole from the token
     };
+
+    console.log("-------", payload);
     return this.http.post<Eleve>(this.apiUrl, payload);
   }
-  deleteEleve(eleveId: string): Observable<void> {
+  deleteEleve(eleveId: number): Observable<void> {
     const token = this.getLoggedInUser();
     const headers = new HttpHeaders({
       'adminId': token.userId,   // Use userId from the token
       'adminRole': token.userRole // Use userRole from the token
     });
-    return this.http.delete<void>(`${this.apiUrl}/${eleveId}`, {headers});
+    return this.http.delete<void>(`${this.apiUrl}/${eleveId}`, { headers });
   }
-  updateEleve(id: string, eleve: Eleve): Observable<Eleve> {
+  /**updateEleve(id: number, eleve: Eleve): Observable<Eleve> {
     const token = this.getLoggedInUser();
     const payload = {
       ...eleve, // Spread the eleve data
       adminId: token.userId, // Use userId from the token
       adminRole: token.userRole // Use userRole from the token
     };
+    return this.http.put<Eleve>(`${this.apiUrl}/${id}`, payload);**/
+  updateEleve(id: number, eleveData: any): Observable<Eleve> {
+
+    const token = this.getLoggedInUser();
+
+    const payload = {
+      eleve: eleveData, // Spread the eleve data
+      adminId: token.userId, // Use userId from the token
+      adminRole: token.userRole // Use userRole from the token
+    };
+
     return this.http.put<Eleve>(`${this.apiUrl}/${id}`, payload);
   }
- 
+
 }

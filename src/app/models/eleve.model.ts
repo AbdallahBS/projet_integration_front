@@ -1,4 +1,4 @@
-export interface Eleve {
+/**export interface Eleve {
   id: string;
   nom: string;
   prenom: string;
@@ -12,4 +12,14 @@ export interface Eleve {
     createdAt: string;
     updatedAt: string;
   };
+}**/
+
+import { Class } from 'src/app/models/class.model';
+
+
+export interface Eleve {
+  id: number;
+  nom: string;
+  prenom: string;
+  classe: {'id':string, 'nomDeClasse':string, 'niveau':string, 'createdAt':string, 'updatedAt':string};
 }

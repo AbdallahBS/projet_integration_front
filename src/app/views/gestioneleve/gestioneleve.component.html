@@ -42,31 +42,30 @@
               <input type="text" id="prenom" formControlName="prenom" class="form-control" placeholder="أدخل اللقب">
             </div>
             <!-- Dropdown for Classe -->
-            <div class="row">
-              <div class="col-md-3 mb-3">
-                <label for="niveau" class="form-label">المستوى</label>
-                <select id="niveau" formControlName="niveau" class="form-select" (change)="onLevelChange()">
-                  <option value="" disabled selected>اختر المستوى</option>
-                  <option value="7">سابعة أساسي</option>
-                  <option value="8">ثامنة أساسي</option>
-                  <option value="9">تاسعة أساسي</option>
-                </select>
-              </div>
+            <div class="mb-3">
+              <label for="niveau" class="form-label">المستوى</label>
+              <select id="niveau" formControlName="niveau" class="form-select" data-mdb-select-init
+                (change)="onLevelChange()">
+                <option value="" disabled selected>اختر المستوى</option>
+                <option value="7">سابعة أساسي</option>
+                <option value="8">ثامنة أساسي</option>
+                <option value="9"> تاسعة أساسي</option>
+              </select>
+            </div>
 
-              <div class="col-md-3 mb-3">
-                <label for="classe" class="form-label">الصف</label>
-                <select id="classe" formControlName="classe" class="form-select" (change)="onClasseChange()">
-                  <option value="" disabled selected>اختر الصف</option>
-                  <option *ngFor="let classe of classes" [value]="classe.id">{{ classe.nomDeClasse }}</option>
-                </select>
-              </div>
-            </div>          
-
+            <!-- Dropdown for Niveau -->
+            <div class="mb-3">
+              <label for="classe" class="form-label">الصف</label>
+              <select id="classe" formControlName="classe" class="form-select" data-mdb-select-init>
+                <option value="" disabled selected>اختر الصف</option>
+                <option *ngFor="let classe of classes" [value]="classe.id">{{ classe.nomDeClasse }}</option>
+              </select>
+            </div>
             <div class="text-end">
               <button type="submit" class="btn btn-success" [disabled]="isSubmitting">
                 حفظ
               </button>
-              <button type="button" class="btn btn-secondary ms-2" (click)="showForm = false">
+              <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">
                 إلغاء
               </button>
             </div>
@@ -93,9 +92,9 @@
                 </button>
               </div>
             </div>
-            
+
           </form>
-          
+
         </c-card-body>
       </c-card>
 
@@ -104,9 +103,8 @@
         <thead class="bg-light">
           <tr>
             <th>الاسم</th>
-            <th>الصف</th>
             <th>المستوى</th>
-          
+            <th>الصف</th>
             <th>الإجراءات</th>
           </tr>
         </thead>
@@ -114,29 +112,28 @@
           <tr *ngFor="let eleve of filteredEleves">
             <td>
               <div class="d-flex align-items-center">
-                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/student.png" 
-                  textColor="primary" alt="User avatar"></c-avatar>
+                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/student.png" textColor="primary"
+                  alt="User avatar"></c-avatar>
                 <div class="ms-3">
                   <p class="fw-bold mb-1">{{ eleve.nom }} {{ eleve.prenom }}</p>
-                  <p class="text-muted mb-0">{{ eleve.classe.nomDeClasse }}</p>
+                  <p class="text-muted mb-0">ذكر</p>
                 </div>
               </div>
             </td>
             <td>
-              <p class="fw-normal mb-1">{{ eleve.classe.nomDeClasse }}</p> <!-- Display nomDeClasse -->
+              <p class="fw-normal mb-1">{{ eleve.classe.niveau }}</p>
             </td>
             <td>
-              <p class="fw-normal mb-1">{{ eleve.classe.niveau }}</p> <!-- Display niveau -->
+              <p class="fw-normal mb-1">{{ eleve.classe.nomDeClasse }}</p>
             </td>
-            
             <td>
-              <button type="button" class="btn btn-sm btn-outline-secondary me-2" (click)="editEleve(eleve)">تعديل</button>
-              <button type="button" class="btn btn-sm btn-outline-danger"
+              <button type="button" class="btn btn-link btn-sm btn-rounded" (click)="editEleve(eleve)">تعديل</button>
+              <button type="button" class="btn btn-link btn-sm btn-rounded text-danger"
                 (click)="deleteEleve(eleve.id)">حذف</button>
             </td>
           </tr>
         </tbody>
-        
+
 
       </table>
 
