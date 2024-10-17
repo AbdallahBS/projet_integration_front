@@ -21,5 +21,6 @@ export interface Eleve {
   id: number;
   nom: string;
   prenom: string;
-  classe: {'id':string, 'nomDeClasse':string, 'niveau':string, 'createdAt':string, 'updatedAt':string};
+  sexe: string;
+  classe: { 'id': string, 'nomDeClasse': string, 'niveau': string, 'createdAt': string, 'updatedAt': string };
 }

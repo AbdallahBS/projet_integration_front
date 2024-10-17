@@ -3,6 +3,7 @@ export interface Enseignant {
   nom: string;
   prenom: string;
   numerotel: string;
+  sexe: string;
   classe: string;
   classes: any[];
 }

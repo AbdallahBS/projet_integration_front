@@ -90,7 +90,7 @@ export class GestioneleveComponent implements OnInit {
     this.eleveService.getAllEleves().subscribe({
       next: (data) => {
         this.eleves = data;
-        this.filteredEleves = data; // Initialize filteredEleves with all Eleves
+        this.filteredEleves = data; // Initialize filteredEleves with all Eleves        
       },
       error: (error) => {
         console.error('Error fetching Eleves', error);
@@ -104,6 +104,7 @@ export class GestioneleveComponent implements OnInit {
     this.eleveForm = this.fb.group({
       nom: ['', [Validators.required]],
       prenom: ['', [Validators.required]],
+      sexe: ['', [Validators.required]],
       classe: [{ value: '', disabled: true }, [Validators.required]],  // Disable 'classe'
       niveau: ['', [Validators.required]],
     });
@@ -149,7 +150,7 @@ export class GestioneleveComponent implements OnInit {
 
       if (this.selectedEleveId) {
         // If an Eleve is selected for editing, update it
-        const eleve = { nom: eleveData.nom, prenom: eleveData.prenom, classeId: eleveData.classe };
+        const eleve = { nom: eleveData.nom, prenom: eleveData.prenom, sexe: eleveData.sexe, classeId: eleveData.classe };
         this.eleveService.updateEleve(this.selectedEleveId, eleve).subscribe({
           next: () => {
             this.isSubmitting = false;
@@ -167,7 +168,7 @@ export class GestioneleveComponent implements OnInit {
 
         //this.eleveService.addEleve(eleveData).subscribe({
         // Otherwise, create a new Eleve
-        const eleve = { nom: eleveData.nom, prenom: eleveData.prenom, classeId: eleveData.classe };
+        const eleve = { nom: eleveData.nom, prenom: eleveData.prenom, sexe: eleveData.sexe, classeId: eleveData.classe };
         this.eleveService.addEleve(eleve).subscribe({
           next: () => {
             this.isSubmitting = false;
@@ -234,6 +235,7 @@ export class GestioneleveComponent implements OnInit {
     this.eleveForm.patchValue({
       nom: eleve.nom,
       prenom: eleve.prenom,
+      sexe: eleve.sexe,
       /**classe: eleve.classe.nomDeClasse,  // Use classe.nomDeClasse
       niveau: eleve.classe.niveau        // Use classe.niveau
     });

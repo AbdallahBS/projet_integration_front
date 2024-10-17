@@ -181,6 +181,7 @@ export class GestionenseignantComponent implements OnInit {
       nom: ['', [Validators.required]],
       prenom: ['', [Validators.required]],
       numerotel: ['', [Validators.required]],
+      sexe: ['', [Validators.required]],
       niveau: [''],
       classe: [''],
       matiere: [''],
@@ -280,6 +281,7 @@ export class GestionenseignantComponent implements OnInit {
       nom: '',
       prenom: '',
       numerotel: '',
+      sexe: '',
       niveau: '',
       classe: '',
       matiere: ''
@@ -315,6 +317,7 @@ export class GestionenseignantComponent implements OnInit {
       nom: enseignant.nom,
       prenom: enseignant.prenom,
       numerotel: enseignant.numerotel,
+      sexe: enseignant.sexe,
       // Assuming we need to set the classe field based on storedData
       classe: enseignant.classes.map(c => c.id)
     });

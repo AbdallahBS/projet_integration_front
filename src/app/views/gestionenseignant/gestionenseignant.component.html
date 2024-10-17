@@ -42,6 +42,15 @@
                 placeholder="رقم الهاتف">
             </div>
 
+            <div class="mb-3">
+              <label for="sexe" class="form-label">الجنس</label>
+              <select id="sexe" formControlName="sexe" class="form-select" data-mdb-select-init>
+                <option value="" disabled selected>اختر الجنس</option>
+                <option value="ذكر">ذكر</option>
+                <option value="انثى">انثى</option>
+              </select>
+            </div>
+
             <hr style="border: 0; border-top: 1px solid #ffffff; margin-top: 1rem; margin-bottom: 1rem;">
 
             <div class="mb-3 text-center">
@@ -139,7 +148,6 @@
         <thead class="bg-light">
           <tr>
             <th>الاسم</th>
-            <th>الصف</th>
             <th>رقم الهاتف</th>
             <th>الإجراءات</th>
           </tr>
@@ -148,16 +156,13 @@
           <tr *ngFor="let enseignant of filteredEnseignants">
             <td>
               <div class="d-flex align-items-center">
-                <c-avatar shape="rounded-1" [size]="'md'" src="./assets/images/avatars/tch.png" 
+                <c-avatar shape="rounded-1" [size]="'md'" [src]="'./assets/images/avatars/m' + enseignant.sexe + '.png'"
                   textColor="primary" alt="User avatar"></c-avatar>
                 <div class="ms-3">
                   <p class="fw-bold mb-1">{{ enseignant.nom }} {{ enseignant.prenom }}</p>
-                  <p class="text-muted mb-0">{{ enseignant.classe }}</p>
+                  <p class="text-muted mb-0">{{ enseignant.sexe }}</p>
                 </div>
               </div>
-            </td>
-            <td>
-              <p class="fw-normal mb-1">{{ enseignant.classe }}</p>
             </td>
             <td>
               <p class="fw-normal mb-1">{{ enseignant.numerotel }}</p>
@@ -165,7 +170,7 @@
             <td>
               <button type="button" class="btn btn-sm btn-outline-secondary me-2"
                 (click)="editEnseignant(enseignant)">تعديل</button>
-              <button type="button" class="btn btn-sm btn-outline-danger" 
+              <button type="button" class="btn btn-sm btn-outline-danger"
                 (click)="deleteEnseignant(enseignant.id)">حذف</button>
             </td>
           </tr>
