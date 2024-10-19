@@ -323,7 +323,7 @@ export class GestionenseignantComponent implements OnInit {
     });
 
     this.showForm = true;
-    this.selectedEnseignantId = enseignant.id; // Store the selected enseignant ID
+    this.selectedEnseignantId = enseignant.id;
 
     this.storedData = enseignant.classes.map(classe => ({
       niveau: classe.niveau,
