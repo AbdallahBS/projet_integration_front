@@ -18,12 +18,7 @@ import {
 import { DefaultFooterComponent, DefaultHeaderComponent } from './';
 import { navItems } from './_nav';
 import { adminNavItems } from '../../navigation/nav.admin'; // Admin nav
-function isOverflown(element: HTMLElement) {
-  return (
-    element.scrollHeight > element.clientHeight ||
-    element.scrollWidth > element.clientWidth
-  );
-}
+
 
 @Component({
   selector: 'app-dashboard',

@@ -5,10 +5,12 @@
   colorScheme="light"
   id="sidebar1"
   visible
+  style="right: 0; width: 250px; overflow-y: auto;" 
+
 >
   <c-sidebar-header class="border-bottom">
     <c-sidebar-brand [routerLink]="[]">
-     logo charika
+     إسم المعهد
     </c-sidebar-brand>
   </c-sidebar-header>
 
@@ -23,7 +25,7 @@
 </c-sidebar>
 
 <!--main-->
-<div class="wrapper d-flex flex-column min-vh-100">
+<div class="wrapper d-flex flex-column min-vh-100" style="margin-right: 250px; overflow: hidden;">
   <!--app-header-->
   <app-default-header
     [cShadowOnScroll]="'sm'"
@@ -33,7 +35,7 @@
   />
   <!--app-body-->
   <div class="body flex-grow-1">
-    <c-container breakpoint="lg" class="h-auto px-4">
+    <c-container breakpoint="lg" class="h-auto px-4" style="overflow: hidden;">
       <router-outlet />
     </c-container>
   </div>

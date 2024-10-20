@@ -12,19 +12,19 @@
 
 
 <c-row>
-  <c-col xs>
-    <c-card class="mb-4">
+  <c-col xs="12">
+    <c-card class="my-4 text-end">
       <c-card-body>
-        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border" dir="rtl">
           <thead class="text-nowrap text-truncate">
             <tr>
               <th class="bg-body-tertiary text-center">
                 <svg cIcon name="cilPeople"></svg>
               </th>
               <th class="bg-body-tertiary">إسم المدير</th>
-              <th class="bg-body-tertiary text-center">الرتبة</th>
+              <th class="bg-body-tertiary text-end">الرتبة</th>
               <th class="bg-body-tertiary">النشاط</th>
-              <th class="bg-body-tertiary text-center">التوقيت</th>
+              <th class="bg-body-tertiary text-end">التوقيت</th>
             </tr>
           </thead>
           <tbody>
@@ -35,17 +35,17 @@
               <td>
                 <div>{{ user.name }}</div>
               </td>
-              <td class="text-center">
+              <td class="text-end">
                 <div>{{ user.role }}</div>
               </td>
               <td>
                 <div class="d-flex justify-content-between">
-                  <div class="float-start">
+                  <div class="float-end">
                     <div>{{ user.activity }}</div>
                   </div>
                 </div>
               </td>
-              <td class="text-center">
+              <td class="text-end">
                 <div>{{ user.time }}</div>
               </td>
             </tr>

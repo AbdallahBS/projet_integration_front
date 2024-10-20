@@ -32,16 +32,7 @@ body {
   }
 }
 
-.sidebar-toggler {
-  @include ltr-rtl("margin-left", auto);
-}
 
-.sidebar-narrow,
-.sidebar-narrow-unfoldable:not(:hover) {
-  .sidebar-toggler {
-    @include ltr-rtl("margin-right", auto);
-  }
-}
 
 .header > .container-fluid + .container-fluid {
   min-height: 3rem;
