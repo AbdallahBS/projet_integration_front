@@ -37,6 +37,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-cursor' },
 
   },
+  {
+    name: 'إدارة حصص التدارك',
+    url: '/gestionetude',
+    iconComponent: { name: 'cil-menu' },
+  },
 
 
 ];

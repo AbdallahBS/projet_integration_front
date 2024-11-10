@@ -22,4 +22,9 @@ export const adminNavItems: INavData[] = [
     url: '/gestioneleve',
     iconComponent: { name: 'cil-cursor' },
   },
+  {
+    name: 'إدارة حصص التدارك',
+    url: '/gestionetude',
+    iconComponent: { name: 'cil-cursor' },
+  },
 ];

@@ -18,7 +18,7 @@ export const routes: Routes = [
 
       {
         path: 'dashboard',
-       // canActivate: [AuthGuard],// Protect the dashboard route
+        // canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
       },
@@ -52,6 +52,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],// Protect the dashboard route
 
         loadChildren: () => import('./views/gestioneleve/routes').then((m) => m.routes)
+      },
+      {
+        path: 'gestionetude',
+        canActivate: [AuthGuard],// Protect the dashboard route
+
+        loadChildren: () => import('./views/gestionetude/routes').then((m) => m.routes)
       },
       {
         path: 'theme',

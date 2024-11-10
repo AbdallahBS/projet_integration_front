@@ -8,6 +8,9 @@ import { ColorModeService } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
 
+import Flatpickr from 'flatpickr';
+import { Arabic } from 'flatpickr/dist/l10n/ar';
+
 @Component({
   selector: 'app-root',
   template: '<router-outlet />',
@@ -35,9 +38,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
+    Flatpickr.localize(Arabic);
+    Flatpickr('.datepicker', {
+      dateFormat: "Y-m-d",
+    });
+
     this.#router.events.pipe(
-        takeUntilDestroyed(this.#destroyRef)
-      ).subscribe((evt) => {
+      takeUntilDestroyed(this.#destroyRef)
+    ).subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }

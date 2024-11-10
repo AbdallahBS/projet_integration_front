@@ -40,7 +40,6 @@
             "styles": [
               "src/scss/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
-
             ],
             "scripts": [],
             "allowedCommonJsDependencies": []
@@ -103,7 +102,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/styles.scss"
+              "src/scss/styles.scss",
+              "node_modules/flatpickr/dist/flatpickr.css"
             ],
             "scripts": []
           }

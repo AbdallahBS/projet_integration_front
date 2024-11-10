@@ -1,5 +1,14 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, LOCALE_ID } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { registerLocaleData, } from '@angular/common';
+import localeArTN from '@angular/common/locales/ar-TN';
+
+registerLocaleData(localeArTN);
+
 import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
@@ -8,14 +17,14 @@ import {
   withRouterConfig,
   withViewTransitions
 } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http'; 
+import { provideHttpClient } from '@angular/common/http';
 import { DropdownModule, SidebarModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient() ,
+    provideHttpClient(),
     provideRouter(routes,
       withRouterConfig({
         onSameUrlNavigation: 'reload'
@@ -28,8 +37,17 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
       withHashLocation()
     ),
-    importProvidersFrom(SidebarModule, DropdownModule),
+    importProvidersFrom(
+      SidebarModule,
+      DropdownModule,
+      NgbModalModule,
+      FlatpickrModule.forRoot({ locale: 'ar' }),
+      CalendarModule.forRoot({
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      })),
     IconSetService,
-    provideAnimations()
+    provideAnimations(),
+    { provide: LOCALE_ID, useValue: 'ar-TN' }
   ]
 };
