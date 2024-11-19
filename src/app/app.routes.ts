@@ -53,6 +53,13 @@ export const routes: Routes = [
 
         loadChildren: () => import('./views/gestioneleve/routes').then((m) => m.routes)
       },
+
+      {
+        path: 'attendancesheet',
+        canActivate: [AuthGuard],// Protect the dashboard route
+
+        loadChildren: () => import('./attendance-sheet/routes').then((m) => m.routes)
+      },
       {
         path: 'gestionetude',
         canActivate: [AuthGuard],// Protect the dashboard route
@@ -66,7 +73,7 @@ export const routes: Routes = [
       {
         path: 'base',
         loadChildren: () => import('./views/base/routes').then((m) => m.routes)
-      },
+      }, 
       {
         path: 'buttons',
         loadChildren: () => import('./views/buttons/routes').then((m) => m.routes)

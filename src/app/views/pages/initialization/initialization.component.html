@@ -42,19 +42,19 @@
                                         <!-- Add any additional buttons or text here if needed -->
                                     </c-col>
                                 </c-row>
-                                <div *ngIf="isInitSucceed" class="bottom-right">
+                                <div *ngIf="isInitSucceed" class="bottom-left">
                                     <div class="custom-success-alert success-alert">
                                         <svg cIcon class="me-2" name="cil-check"></svg>
                                         <span class="text">{{ 'SIGNUP.SUCCESS' | translate }}</span>
                                     </div>
                                 </div>
-                                <div *ngIf="isInitSucceed==false" class="bottom-right">
+                                <div *ngIf="isInitSucceed==false" class="bottom-left">
                                     <div class="custom-fail-alert fail-alert">
                                         <svg cIcon class="me-2" name="cilLockLocked"></svg>
                                         <span class="text">{{ 'LOGIN.FAILED' | translate }}</span>
                                     </div>
                                 </div>
-                                <div *ngIf="passwordVerificationFailed" class="bottom-right">
+                                <div *ngIf="passwordVerificationFailed" class="bottom-left">
                                     <div class="custom-fail-alert fail-alert">
                                         <svg cIcon class="me-2" name="cilLockLocked"></svg>
                                         <span class="text">{{ 'SIGNUP.PASSFAILED' | translate }}</span>

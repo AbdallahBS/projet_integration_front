@@ -4,7 +4,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Eleve } from '../models/eleve.model'; // Ensure you have an Eleve model
-
+export interface Student {
+  id: string;
+  nom: string;
+  prenom: string;
+  sexe: string;
+  classeId: string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +57,10 @@ export class EleveService {
     }
     return null;
   }
+    // Fetch students by niveau
+    getStudentsByNiveau(niveau: string): Observable<Student[]> {
+      return this.http.get<Student[]>(`http://localhost:3000/eleve/niveau/${niveau}`);
+    }
 
   getAllEleves(): Observable<Eleve[]> {
     return this.http.get<Eleve[]>(this.apiUrl);

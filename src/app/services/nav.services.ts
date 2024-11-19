@@ -33,6 +33,12 @@ export class NavService {
       url: '/gestioneleve',
       iconComponent: { name: 'cil-cursor' },
     },
+    
+  {
+    name: 'رزنامة حصص التدارك',
+    url: '/attendancesheet',
+    iconComponent: { name: 'cil-menu' },
+  },
   ];
 
   constructor(private authService: AuthService) {}

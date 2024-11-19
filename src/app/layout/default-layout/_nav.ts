@@ -43,5 +43,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-menu' },
   },
 
+  {
+    name: 'رزنامة حصص التدارك',
+    url: '/attendancesheet',
+    iconComponent: { name: 'cil-menu' },
+  },
+
+
 
 ];

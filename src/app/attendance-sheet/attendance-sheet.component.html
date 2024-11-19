@@ -1,0 +1,64 @@
+<div class="attendance-sheet">
+    <h3 class="title">بطاقة حضور دروس التدارك</h3>
+  
+    <!-- Etude selection section -->
+    <div *ngIf="!selectedEtude" class="etude-selection">
+      <h4>اختر دروس التدارك:</h4>
+      <select id="etude-select" (change)="onSelectEtude($event)">
+        <option value="" disabled selected>اختر المادة</option>
+        <option *ngFor="let etude of etudes" [value]="etude.id">
+          {{ etude.niveau }} - {{ etude.matiere }}
+        </option>
+      </select>
+    </div>
+  
+    <!-- Main content section: Show only after selecting an etude -->
+    <div *ngIf="selectedEtude" class="header">
+      <p><b>الأستاذ:</b> {{ selectedEtude.enseignant.nom }} {{ selectedEtude.enseignant.prenom }}</p>
+      <p><b>المادة:</b> {{ selectedEtude.matiere }}</p>
+      <p><b>الساعة:</b> {{ selectedEtude.startTime }} / {{ selectedEtude.endTime }}</p>
+      <p><b>المستوى:</b> {{ selectedEtude.niveau }}</p>
+    </div>
+  
+    <!-- Attendance table section: Visible after selecting an etude -->
+    <table *ngIf="selectedEtude" class="attendance-table">
+      <thead>
+        <tr>
+          <th rowspan="2">ملاحظات</th>
+          <th rowspan="2">المبلغ</th>
+          <th colspan="4">الحصص</th>
+          <th rowspan="2">الاسم واللقب</th>
+          <th rowspan="2">ع/ر</th>
+        </tr>
+        <tr>
+          <th *ngFor="let seance of selectedEtude.seances">{{ seance.date | date:'dd' }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students; let i = index">
+          <td>{{ student.notes }}</td>
+          <td>{{ student.amount }}</td>
+          <td>{{ student.sessions[0] || '' }}</td>
+          <td>{{ student.sessions[1] || '' }}</td>
+          <td>{{ student.sessions[2] || '' }}</td>
+          <td>{{ student.sessions[3] || '' }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ i + 1 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="summary">
+      <p><b>المبلغ الجملي:</b> {{ totalAmount }}</p>
+      <p><b>80%:</b> {{ totalAmount * 0.8 }}</p>
+      <p><b>15%:</b> {{ totalAmount * 0.15 }}</p>
+      <p><b>20%:</b> {{ totalAmount * 0.2 }}</p>
+    </div>
+  
+    <div class="footer">
+      <p><b>أساتذة مادة:</b> الرياضيات</p>
+      <p><b>بتاريخ:</b> 2023/11/21</p>
+      <p><b>204.000:</b> أتعهد أني تسلمت المبلغ</p>
+    </div>
+  </div>
+  

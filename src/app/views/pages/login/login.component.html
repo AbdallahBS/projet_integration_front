@@ -32,13 +32,13 @@
                     <!-- Add any additional buttons or text here if needed -->
                   </c-col>
                 </c-row>
-                <div *ngIf="isLoginSucceed" class="bottom-right">
+                <div *ngIf="isLoginSucceed" class="bottom-left">
                   <div class="custom-success-alert success-alert">
                     <svg cIcon class="me-2" name="cil-check"></svg>
                     <span class="text">{{ 'LOGIN.SUCCESS' | translate }}</span>
                   </div>
                 </div>
-                <div *ngIf="isLoginSucceed==false" class="bottom-right">
+                <div *ngIf="isLoginSucceed==false" class="bottom-left">
                   <div class="custom-fail-alert fail-alert">
                     <svg cIcon class="me-2" name="cilLockLocked"></svg>
                     <span class="text">{{ 'LOGIN.FAILED' | translate }}</span>

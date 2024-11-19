@@ -1,5 +1,35 @@
 <c-card-header>
+ 
     <div class="d-flex justify-content-between">
+        <div class="col-md-4">
+            <div class="btn-group">
+              <div
+                class="btn btn-primary"
+                mwlCalendarPreviousView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Previous
+              </div>
+              <div
+                class="btn btn-outline-secondary"
+                mwlCalendarToday
+                [(viewDate)]="viewDate"
+              >
+                Today
+              </div>
+              <div
+                class="btn btn-primary"
+                mwlCalendarNextView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Next
+              </div>
+            </div>
+          </div>
         <div>
             <h4 class="mb-0">
                 {{ viewDate | date:'fullDate':'UTC' }}
@@ -23,24 +53,60 @@
         </div>
     </div>
 </c-card-header>
-<br />
-<div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
-        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
-    </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
-        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-    </mwl-calendar-week-view>
-    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
-    </mwl-calendar-day-view>
+
+<!-- Inputs for Teacher, Class, Level, and Session -->
+<div class="row mb-4">
+    <!-- Teacher Selection -->
+    <div class="col-md-3">
+        <label for="teacherName">اسم المعلم</label>
+        <select id="teacherName" class="form-control" [(ngModel)]="teacherName">
+          <option *ngFor="let enseignant of enseignants" [value]="enseignant.nom">
+            {{ enseignant.nom }} {{ enseignant.prenom }}
+          </option>
+        </select>
+    </div>
+
+    <!-- Subject Selection -->
+    <div class="col-md-3">
+        <label for="matiere" class="form-label">المادة</label>
+        <select id="matiere" class="form-select" [(ngModel)]="matiere">
+          <option value="" disabled selected>اختر المادة</option>
+          <option value="العربية">العربية</option>
+          <option value="الفرنسية">الفرنسية</option>
+          <option value="الإنقليزية">الإنقليزية</option>
+          <option value="الإعلامية">الإعلامية</option>
+          <option value="رياضيات">رياضيات</option>
+          <option value="علوم فيزيائية">علوم فيزيائية</option>
+          <option value="علوم الأحياء والأرض">علوم الأحياء والأرض</option>
+          <option value="علوم تكنولوجية">علوم تكنولوجية</option>
+          <option value="تربية إسلامية">تربية إسلامية</option>
+          <option value="تربية مدنية">تربية مدنية</option>
+          <option value="تاريخ و جغرافيا">تاريخ و جغرافيا</option>
+        </select>
+    </div>
+
+    <!-- Class Selection -->
+    <div class="col-md-3">
+        <label for="class-select" class="form-label">إختر الصف</label>
+        <select id="class-select" [(ngModel)]="selectedClass" class="form-select">
+          <option *ngFor="let classe of classes" [value]="classe.nomDeClasse">
+            {{ classe.nomDeClasse }}
+          </option>
+        </select>
+    </div>
+
+    <!-- Time Input -->
+    <div class="col-md-3">
+        <label for="time-from" class="form-label">من</label>
+        <input id="time-from" type="time" class="form-control" [(ngModel)]="timeFrom">
+        
+        <label for="time-to" class="form-label mt-2">إلى</label>
+        <input id="time-to" type="time" class="form-control" [(ngModel)]="timeTo">
+    </div>
 </div>
 
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+<br />
 
-<br /><br /><br />
 
 <h3>
     تعديل الحصص
@@ -54,38 +120,26 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>المادة</th>
+      
                 <th>اللون المساعد</th>
-                <!--<th>Secondary + text color</th>-->
-                <th>وقت الانطلاق</th>
-                <th>وقت النهاية</th>
+                <th>اليوم</th>
+             
                 <th>حذف</th>
             </tr>
         </thead>
-
         <tbody>
             <tr *ngFor="let event of events">
-                <td>
-                    <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
-                </td>
+               
                 <td>
                     <input type="color" [(ngModel)]="event.color!.primary" (change)="refresh.next()" />
                 </td>
-                <!--<td>
-                    <input type="color" [(ngModel)]="event.color!.secondary" (change)="refresh.next()" />
-                    <input type="color" [ngModel]="event.color!.secondaryText ?? '#1e90ff'"
-                        (ngModelChange)="event.color!.secondaryText = $event" (change)="refresh.next()" />
-                </td>-->
                 <td>
                     <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
-                        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
+                    (ngModelChange)="updateEventEnd(event)"
+                    [altInput]="true" [convertModelValue]="true"
                         [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
                 </td>
-                <td>
-                    <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end"
-                        (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
-                        [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-                </td>
+             
                 <td>
                     <button class="btn btn-danger" (click)="deleteEvent(event)">
                         حذف
@@ -96,26 +150,25 @@
     </table>
 </div>
 
-<ng-template #modalContent let-close="close">
-    <div class="modal-header">
-        <h5 class="modal-title">Event action occurred</h5>
-        <button type="button" class="close" (click)="close()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div>
-            Action:
-            <pre>{{ modalData.action }}</pre>
-        </div>
-        <div>
-            Event:
-            <pre>{{ modalData.event | json }}</pre>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="close()">
-            OK
-        </button>
-    </div>
-</ng-template>
+
+
+
+<div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+</div>
+<div class="text-center mt-4">
+    <button class="btn btn-success" (click)="validateData()">
+        تأكيد البيانات
+    </button>
+</div>
+<!-- Demo Section -->

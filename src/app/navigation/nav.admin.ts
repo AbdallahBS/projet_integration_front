@@ -27,4 +27,12 @@ export const adminNavItems: INavData[] = [
     url: '/gestionetude',
     iconComponent: { name: 'cil-cursor' },
   },
+
+
+  
+  {
+    name: 'رزنامة حصص التدارك',
+    url: '/attendancesheet',
+    iconComponent: { name: 'cil-menu' },
+  },
 ];
