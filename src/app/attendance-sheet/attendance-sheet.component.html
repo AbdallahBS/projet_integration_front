@@ -1,64 +1,112 @@
 <div class="attendance-sheet">
-    <h3 class="title">بطاقة حضور دروس التدارك</h3>
-  
-    <!-- Etude selection section -->
-    <div *ngIf="!selectedEtude" class="etude-selection">
-      <h4>اختر دروس التدارك:</h4>
-      <select id="etude-select" (change)="onSelectEtude($event)">
-        <option value="" disabled selected>اختر المادة</option>
-        <option *ngFor="let etude of etudes" [value]="etude.id">
-          {{ etude.niveau }} - {{ etude.matiere }}
-        </option>
-      </select>
-    </div>
-  
-    <!-- Main content section: Show only after selecting an etude -->
-    <div *ngIf="selectedEtude" class="header">
-      <p><b>الأستاذ:</b> {{ selectedEtude.enseignant.nom }} {{ selectedEtude.enseignant.prenom }}</p>
-      <p><b>المادة:</b> {{ selectedEtude.matiere }}</p>
-      <p><b>الساعة:</b> {{ selectedEtude.startTime }} / {{ selectedEtude.endTime }}</p>
-      <p><b>المستوى:</b> {{ selectedEtude.niveau }}</p>
-    </div>
-  
-    <!-- Attendance table section: Visible after selecting an etude -->
-    <table *ngIf="selectedEtude" class="attendance-table">
-      <thead>
-        <tr>
-          <th rowspan="2">ملاحظات</th>
-          <th rowspan="2">المبلغ</th>
-          <th colspan="4">الحصص</th>
-          <th rowspan="2">الاسم واللقب</th>
-          <th rowspan="2">ع/ر</th>
-        </tr>
-        <tr>
-          <th *ngFor="let seance of selectedEtude.seances">{{ seance.date | date:'dd' }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of students; let i = index">
-          <td>{{ student.notes }}</td>
-          <td>{{ student.amount }}</td>
-          <td>{{ student.sessions[0] || '' }}</td>
-          <td>{{ student.sessions[1] || '' }}</td>
-          <td>{{ student.sessions[2] || '' }}</td>
-          <td>{{ student.sessions[3] || '' }}</td>
-          <td>{{ student.name }}</td>
-          <td>{{ i + 1 }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <div class="summary">
-      <p><b>المبلغ الجملي:</b> {{ totalAmount }}</p>
-      <p><b>80%:</b> {{ totalAmount * 0.8 }}</p>
-      <p><b>15%:</b> {{ totalAmount * 0.15 }}</p>
-      <p><b>20%:</b> {{ totalAmount * 0.2 }}</p>
-    </div>
-  
-    <div class="footer">
-      <p><b>أساتذة مادة:</b> الرياضيات</p>
-      <p><b>بتاريخ:</b> 2023/11/21</p>
-      <p><b>204.000:</b> أتعهد أني تسلمت المبلغ</p>
-    </div>
+  <h3 class="title">بطاقة حضور دروس التدارك</h3>
+
+  <!-- Etude selection section -->
+  <div *ngIf="!selectedEtude" class="etude-selection">
+    <h4>اختر دروس التدارك:</h4>
+    <select id="etude-select" (change)="onSelectEtude($event)">
+      <option value="" disabled selected>اختر المادة</option>
+      <option *ngFor="let etude of etudes" [value]="etude.id">
+        {{ etude.niveau }} - {{ etude.matiere }}
+      </option>
+    </select>
   </div>
-  
+
+  <!-- Main content section: Show only after selecting an etude -->
+  <div *ngIf="selectedEtude" class="header">
+    <p><b>الأستاذ:</b> {{ selectedEtude.enseignant.nom }} {{ selectedEtude.enseignant.prenom }}</p>
+    <p><b>المادة:</b> {{ selectedEtude.matiere }}</p>
+    <p><b>الساعة:</b> {{ selectedEtude.startTime }} / {{ selectedEtude.endTime }}</p>
+    <p><b>المستوى:</b> {{ selectedEtude.niveau }}</p>
+  </div>
+
+  <!-- Attendance table section: Visible after selecting an etude -->
+  <table *ngIf="selectedEtude" class="attendance-table">
+    <thead>
+      <tr>
+        <th rowspan="2">ملاحظات</th>
+        <th rowspan="2">المبلغ</th>
+        <th colspan="4">الحصص</th>
+        <th rowspan="2">الاسم واللقب</th>
+        <th rowspan="2">ع/ر</th>
+      </tr>
+      <tr>
+        <th *ngFor="let seance of selectedEtude.seances">{{ seance.date | date: 'dd' }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Existing student rows -->
+      <tr *ngFor="let student of students; let i = index">
+        <td>{{ student.notes }}</td>
+        <td>{{ student.amount |number: '1.2-2'}}</td>
+        <td
+          *ngFor="let session of student.sessions; let sessionIndex = index"
+          (click)="toggleAttendance(i, sessionIndex)"
+        >
+          <span
+            [ngClass]="{
+              absentwithreason: session === 'absentwithreason',
+              absent: session === 'absent'
+            }"
+          >
+            {{ session === 'absentwithreason' ? 'A' : session === 'absent' ? 'A' : '+' }}
+          </span>
+        </td>
+        <td>
+          {{ student.name }}
+          <!-- Hide delete button when printing -->
+          <button *ngIf="!isPrinting" (click)="deleteStudent(i)" title="حذف الطالب" class="delete-btn">✖</button>
+        </td>
+        <td>{{ i + 1 }}</td>
+      </tr>
+
+      <!-- Add student row -->
+      <tr>
+        <td colspan="6"></td>
+        <td>
+          <!-- Toggle input and button based on state -->
+          <ng-container *ngIf="addingStudent; else addButton">
+            <input
+              type="text"
+              [(ngModel)]="newStudentName"
+              (input)="filterStudentSuggestions()"
+              placeholder="ادخل اسم الطالب"
+              class="new-student-input"
+            />
+          
+            <!-- Buttons -->
+            <button (click)="confirmAddStudent()" class="confirm-btn">✔</button>
+            <button (click)="cancelAddStudent()" class="cancel-btn">✖</button>
+          
+            <!-- Suggestions List -->
+            <ul *ngIf="filteredStudents.length > 0" class="suggestions-list">
+              <li *ngFor="let student of filteredStudents" (click)="selectStudent(student)">
+                {{ student.name }}
+              </li>
+            </ul>
+          </ng-container>
+          
+          <!-- Hide "Add Student" button when printing -->
+          <ng-template #addButton>
+            <button *ngIf="!isPrinting" (click)="startAddStudent()" class="add-student-btn">إضافة طالب</button>
+          </ng-template>
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="summary">
+    <p><b>المبلغ الجملي:</b> {{ totalAmount | number: '1.2-2' }}</p>
+    <p><b>80%:</b> {{ totalAmount * 0.8 | number: '1.2-2' }}</p>
+    <p><b>15%:</b> {{ totalAmount * 0.15 | number: '1.2-2' }}</p>
+    <p><b>20%:</b> {{ totalAmount * 0.2 | number: '1.2-2' }}</p>
+  </div>
+
+  <div class="footer">
+    <p><b>أساتذة مادة:</b> {{selectedEtude?.matiere }}</p>
+    <p><b>بتاريخ:</b> {{ currentDate | date: 'yyyy/MM/dd' }}</p>
+    <p><b>{{((totalAmount * 0.8) - (totalAmount * 0.15)) | number: '1.2-2'  }}:</b> أتعهد أني تسلمت المبلغ</p>
+    <button class="print-btn" (click)="printPage()">طباعة</button>
+  </div>
+</div>

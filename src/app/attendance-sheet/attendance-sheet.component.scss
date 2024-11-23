@@ -1,11 +1,12 @@
 .attendance-sheet {
     font-family: "Arial", sans-serif;
-    direction: rtl;
     text-align: right;
+    direction: rtl;
     margin: 20px;
     border: 1px solid #ccc;
     padding: 10px;
   }
+  
   
   .title {
     font-size: 18px;
@@ -24,6 +25,8 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 10px;
+    direction: rtl; /* Apply RTL direction for the whole table */
+
   }
   
   .attendance-table th,
@@ -172,4 +175,94 @@
       }
     }
   }
+  .attendance-table td span.absentwithreason {
+    color: green;  /* Green for present */
+  }
   
+  .attendance-table td span.absent {
+    color: red;  /* Red for absent */
+  }
+  
+  .attendance-table td span {
+    cursor: pointer;  /* Make the cell clickable */
+  }
+  .add-student-btn,
+.confirm-btn,
+.cancel-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background: #28a745;
+}
+
+.cancel-btn {
+  background: #dc3545;
+}
+
+.add-student-btn:hover,
+.confirm-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.9;
+}
+
+.new-student-input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 60%;
+  margin-right: 5px;
+}
+.delete-btn {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-btn:hover {
+  color: darkred;
+}
+.suggestions-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+.print-btn {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.print-btn:hover {
+  background-color: #45a049;
+}@media print {
+  .delete-btn, .add-student-btn {
+    display: none;
+  }
+}

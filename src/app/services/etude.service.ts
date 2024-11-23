@@ -12,6 +12,26 @@ export class EtudeService {
   getEtudes(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
+
+
+  markAttendance(etudeId: string, seanceId: string, attendanceData: { attendance: any[] }): Observable<any> {
+    const url = `http://localhost:3000/api/etudes/${etudeId}/seances/${seanceId}/attendance`;
+    return this.http.post(url, attendanceData);
+  }
+  getElevesFromEtude(etudeId: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/api/etudes/${etudeId}/eleves`);
+  }
+  
+  addElevesToEtude(etudeId: string, eleveIds: string[]): Observable<any> {
+    const url = 'http://localhost:3000/api/addeleves';
+    const body = { etudeId, eleveIds };
+    return this.http.post(url, body);
+  }
+  removeStudentFromEtude(etudeId: string, studentId: string) {
+    const url = `${this.apiUrl}/${etudeId}/eleves/${studentId}`;
+    return this.http.delete(url);
+  }
+
   // Method to submit the data to the API
   submitEtudeData(
     className: string,

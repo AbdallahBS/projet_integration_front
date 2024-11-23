@@ -6,6 +6,7 @@ import { Eleve } from '../../models/eleve.model';
 import { Class } from '../../models/class.model';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Import TranslateModule and TranslateService
+import * as XLSX from 'xlsx'; // Import the xlsx library
 
 import {
   AvatarComponent,
@@ -295,5 +296,61 @@ export class GestioneleveComponent implements OnInit {
     this.showForm = false;  // Hide the form
     this.selectedEleveId = null; // Optionally clear the selectedEleveId if needed
     this.classes = []; // Clear the classes array if needed
+  }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      const file = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const binaryData = e.target.result;
+        const workbook = XLSX.read(binaryData, { type: 'binary' });
+
+        // Assume the first sheet contains the Eleve data
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Parse the sheet to JSON
+        const eleves: any[] = XLSX.utils.sheet_to_json(sheet);
+
+        // Map the data to match your Eleve model
+        const formattedEleves = eleves.map((row) => ({
+          nom: row['Nom'],
+          prenom: row['Prenom'],
+          sexe: row['Sexe'],
+          niveau: row['Niveau'],
+          classe: row['Classe'],
+        }));
+
+        this.addElevesFromExcel(formattedEleves);
+      };
+
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  addElevesFromExcel(eleves: any[]): void {
+    eleves.forEach((eleve) => {
+      const classe = this.classes.find((cls) => cls.nomDeClasse === eleve.classe);
+
+      if (classe) {
+        const eleveData = {
+          nom: eleve.nom,
+          prenom: eleve.prenom,
+          sexe: eleve.sexe,
+          classeId: classe.id,
+        };
+
+        // Add each eleve using the service
+        this.eleveService.addEleve(eleveData).subscribe({
+          next: () => this.fetchAllEleves(), // Refresh the Eleves table
+          error: (error) => console.error('Error adding Eleve from Excel', error),
+        });
+      } else {
+        console.warn(`Class ${eleve.classe} not found for Eleve ${eleve.nom} ${eleve.prenom}`);
+      }
+    });
   }
 }

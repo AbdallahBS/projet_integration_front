@@ -8,6 +8,9 @@ export interface Student {
   id: string;
   nom: string;
   prenom: string;
+  attendances: {
+    attendanceStatus: string;
+  }[];
   sexe: string;
   classeId: string;
 }

@@ -16,6 +16,10 @@
             إضافة تلميذ
           </button>
         </div>
+        <div class="mb-3">
+          <label for="excelUpload" class="form-label">رفع ملف Excel</label>
+          <input type="file" id="excelUpload" (change)="onFileChange($event)" accept=".xlsx, .xls" class="form-control" />
+        </div>
         <div class="d-flex">
           <input type="text" class="form-control" placeholder="بحث بالصف..." [(ngModel)]="searchClass"
             (ngModelChange)="filterEleves()">
