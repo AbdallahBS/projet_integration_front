@@ -1,0 +1,41 @@
+/* Add spacing between buttons */
+.custom-btn-group {
+  gap: 10px; /* Adds space between buttons */
+  display: flex;
+}
+
+.btn-custom {
+  background-color: #007bff; /* Elegant blue color */
+  color: white;
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.btn-custom-secondary {
+  background-color: #f8f9fa; /* Light secondary button */
+  color: #343a40;
+  border: 1px solid #ced4da;
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth hover effect */
+}
+
+/* Hover effects */
+.btn-custom:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-custom-secondary:hover {
+  background-color: #e9ecef; /* Slightly darker on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Active button effect */
+.btn-custom:active,
+.btn-custom-secondary:active {
+  transform: translateY(0); /* Reset lift on click */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Less shadow on click */
+}

@@ -1,6 +1,55 @@
 <div class="attendance-sheet">
   <h3 class="title">بطاقة حضور دروس التدارك</h3>
 
+  <!-- Amount and percentages input section -->
+  <div class="settings-inputs" *ngIf="selectedEtude">
+    <div class="input-group">
+      <label for="base-amount">المبلغ الأساسي:</label>
+      <input 
+        type="number" 
+        id="base-amount" 
+        [(ngModel)]="baseAmount" 
+        (change)="updateAllStudentsAmount()"
+      >
+    </div>
+    
+    <div class="input-group">
+      <label for="teacherPercent">نسبة الأستاذ:</label>
+      <input 
+        type="number" 
+        id="teacherPercent" 
+        [(ngModel)]="teacherPercent" 
+        (change)="updatePercentages()"
+        min="0"
+        max="100"
+      >%
+    </div>
+
+    <div class="input-group">
+      <label for="schoolPercent">نسبة المدرسة:</label>
+      <input 
+        type="number" 
+        id="schoolPercent" 
+        [(ngModel)]="schoolPercent" 
+        (change)="updatePercentages()"
+        min="0"
+        max="100"
+      >%
+    </div>
+
+    <div class="input-group">
+      <label for="absenceReductionPercent">نسبة خصم الغياب:</label>
+      <input 
+        type="number" 
+        id="absenceReductionPercent" 
+        [(ngModel)]="absenceReductionPercent" 
+        (change)="updateAllStudentsAmount()"
+        min="0"
+        max="100"
+      >%
+    </div>
+  </div>
+
   <!-- Etude selection section -->
   <div *ngIf="!selectedEtude" class="etude-selection">
     <h4>اختر دروس التدارك:</h4>
@@ -98,15 +147,14 @@
 
   <div class="summary">
     <p><b>المبلغ الجملي:</b> {{ totalAmount | number: '1.2-2' }}</p>
-    <p><b>80%:</b> {{ totalAmount * 0.8 | number: '1.2-2' }}</p>
-    <p><b>15%:</b> {{ totalAmount * 0.15 | number: '1.2-2' }}</p>
-    <p><b>20%:</b> {{ totalAmount * 0.2 | number: '1.2-2' }}</p>
+    <p><b>حصة الأستاذ ({{teacherPercent}}%):</b> {{ totalAmount * (teacherPercent/100) | number: '1.2-2' }}</p>
+    <p><b>حصة المدرسة ({{schoolPercent}}%):</b> {{ totalAmount * (schoolPercent/100) | number: '1.2-2' }}</p>
   </div>
 
   <div class="footer">
     <p><b>أساتذة مادة:</b> {{selectedEtude?.matiere }}</p>
     <p><b>بتاريخ:</b> {{ currentDate | date: 'yyyy/MM/dd' }}</p>
-    <p><b>{{((totalAmount * 0.8) - (totalAmount * 0.15)) | number: '1.2-2'  }}:</b> أتعهد أني تسلمت المبلغ</p>
+    <p><b>{{ getTeacherFinalAmount() | number: '1.2-2' }}:</b> أتعهد أني تسلمت المبلغ</p>
     <button class="print-btn" (click)="printPage()">طباعة</button>
   </div>
 </div>

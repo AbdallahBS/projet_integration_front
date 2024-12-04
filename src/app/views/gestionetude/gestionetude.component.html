@@ -1,109 +1,121 @@
 <c-card-header>
- 
-    <div class="d-flex justify-content-between">
-        <div class="col-md-4">
-            <div class="btn-group">
-              <div
-                class="btn btn-primary"
-                mwlCalendarPreviousView
-                [view]="view"
-                [(viewDate)]="viewDate"
-                (viewDateChange)="closeOpenMonthViewDay()"
-              >
-                Previous
-              </div>
-              <div
-                class="btn btn-outline-secondary"
-                mwlCalendarToday
-                [(viewDate)]="viewDate"
-              >
-                Today
-              </div>
-              <div
-                class="btn btn-primary"
-                mwlCalendarNextView
-                [view]="view"
-                [(viewDate)]="viewDate"
-                (viewDateChange)="closeOpenMonthViewDay()"
-              >
-                Next
-              </div>
-            </div>
-          </div>
-        <div>
-            <h4 class="mb-0">
-                {{ viewDate | date:'fullDate':'UTC' }}
-            </h4>
+    <div class="d-flex justify-content-between align-items-center">
+      <!-- Calendar Navigation -->
+      <div class="col-md-4">
+        <div class="btn-group custom-btn-group d-flex gap-2">
+          <button
+            class="btn btn-custom btn-sm px-4"
+            mwlCalendarPreviousView
+            [view]="view"
+            [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()"
+          >
+          السابق
+          </button>
+          <button
+            class="btn btn-custom-secondary btn-sm px-4"
+            mwlCalendarToday
+            [(viewDate)]="viewDate"
+          >
+          اليوم
+          </button>
+          <button
+            class="btn btn-custom btn-sm px-4"
+            mwlCalendarNextView
+            [view]="view"
+            [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()"
+          >
+          التالي
+          </button>
         </div>
-        <div>
-            <div>
-                <button class="btn btn-primary" (click)="setView(CalendarView.Month)"
-                    [class.active]="view === CalendarView.Month">
-                    شهر
-                </button>
-                <button class="btn btn-primary" (click)="setView(CalendarView.Week)"
-                    [class.active]="view === CalendarView.Week">
-                    اسبوع
-                </button>
-                <button class="btn btn-primary" (click)="setView(CalendarView.Day)"
-                    [class.active]="view === CalendarView.Day">
-                    يوم
-                </button>
-            </div>
-        </div>
+      </div>
+      
+  
+      <!-- Current Date -->
+      <div>
+        <h4 class="mb-0 text-primary fw-bold">
+          {{ viewDate | date: 'fullDate':'UTC' }}
+        </h4>
+      </div>
+  
+      <!-- View Buttons -->
+      <div class="btn-group">
+        <button
+          class="btn btn-light btn-sm px-4"
+          (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month"
+        >
+          شهر
+        </button>
+        <button
+          class="btn btn-light btn-sm px-4"
+          (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week"
+        >
+          اسبوع
+        </button>
+        <button
+          class="btn btn-light btn-sm px-4"
+          (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day"
+        >
+          يوم
+        </button>
+      </div>
     </div>
-</c-card-header>
-
-<!-- Inputs for Teacher, Class, Level, and Session -->
-<div class="row mb-4">
+  </c-card-header>
+  
+  <!-- Inputs for Teacher, Class, Level, and Session -->
+  <div class="row gy-4 mb-4">
     <!-- Teacher Selection -->
     <div class="col-md-3">
-        <label for="teacherName">اسم المعلم</label>
-        <select id="teacherName" class="form-control" [(ngModel)]="teacherName">
-          <option *ngFor="let enseignant of enseignants" [value]="enseignant.nom">
-            {{ enseignant.nom }} {{ enseignant.prenom }}
-          </option>
-        </select>
+      <label for="teacherName" class="form-label fw-bold text-primary">اسم المعلم</label>
+      <select id="teacherName" class="form-select" [(ngModel)]="teacherName">
+        <option *ngFor="let enseignant of enseignants" [value]="enseignant.nom">
+          {{ enseignant.nom }} {{ enseignant.prenom }}
+        </option>
+      </select>
     </div>
-
+  
     <!-- Subject Selection -->
     <div class="col-md-3">
-        <label for="matiere" class="form-label">المادة</label>
-        <select id="matiere" class="form-select" [(ngModel)]="matiere">
-          <option value="" disabled selected>اختر المادة</option>
-          <option value="العربية">العربية</option>
-          <option value="الفرنسية">الفرنسية</option>
-          <option value="الإنقليزية">الإنقليزية</option>
-          <option value="الإعلامية">الإعلامية</option>
-          <option value="رياضيات">رياضيات</option>
-          <option value="علوم فيزيائية">علوم فيزيائية</option>
-          <option value="علوم الأحياء والأرض">علوم الأحياء والأرض</option>
-          <option value="علوم تكنولوجية">علوم تكنولوجية</option>
-          <option value="تربية إسلامية">تربية إسلامية</option>
-          <option value="تربية مدنية">تربية مدنية</option>
-          <option value="تاريخ و جغرافيا">تاريخ و جغرافيا</option>
-        </select>
+      <label for="matiere" class="form-label fw-bold text-primary">المادة</label>
+      <select id="matiere" class="form-select" [(ngModel)]="matiere">
+        <option value="" disabled selected>اختر المادة</option>
+        <option value="العربية">العربية</option>
+        <option value="الفرنسية">الفرنسية</option>
+        <option value="الإنقليزية">الإنقليزية</option>
+        <option value="الإعلامية">الإعلامية</option>
+        <option value="رياضيات">رياضيات</option>
+        <option value="علوم فيزيائية">علوم فيزيائية</option>
+        <option value="علوم الأحياء والأرض">علوم الأحياء والأرض</option>
+        <option value="علوم تكنولوجية">علوم تكنولوجية</option>
+        <option value="تربية إسلامية">تربية إسلامية</option>
+        <option value="تربية مدنية">تربية مدنية</option>
+        <option value="تاريخ و جغرافيا">تاريخ و جغرافيا</option>
+      </select>
     </div>
-
+  
     <!-- Class Selection -->
     <div class="col-md-3">
-        <label for="class-select" class="form-label">إختر الصف</label>
-        <select id="class-select" [(ngModel)]="selectedClass" class="form-select">
-          <option *ngFor="let classe of classes" [value]="classe.nomDeClasse">
-            {{ classe.nomDeClasse }}
-          </option>
-        </select>
+      <label for="class-select" class="form-label fw-bold text-primary">إختر الصف</label>
+      <select id="class-select" [(ngModel)]="selectedClass" class="form-select">
+        <option *ngFor="let classe of classes" [value]="classe.nomDeClasse">
+          {{ classe.nomDeClasse }}
+        </option>
+      </select>
     </div>
-
+  
     <!-- Time Input -->
     <div class="col-md-3">
-        <label for="time-from" class="form-label">من</label>
-        <input id="time-from" type="time" class="form-control" [(ngModel)]="timeFrom">
-        
-        <label for="time-to" class="form-label mt-2">إلى</label>
-        <input id="time-to" type="time" class="form-control" [(ngModel)]="timeTo">
+      <label for="time-from" class="form-label fw-bold text-primary">من</label>
+      <input id="time-from" type="time" class="form-control" [(ngModel)]="timeFrom">
+      <label for="time-to" class="form-label mt-2 fw-bold text-primary">إلى</label>
+      <input id="time-to" type="time" class="form-control" [(ngModel)]="timeTo">
     </div>
-</div>
+  </div>
+  
 
 <br />
 

@@ -22,7 +22,7 @@ export const navItems: INavData[] = [
   {
     name: 'إدارة المدرسين',
     url: '/gestionenseignant',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-people' },
 
   },
   {
@@ -34,19 +34,19 @@ export const navItems: INavData[] = [
   {
     name: 'إدارة التلاميذ',
     url: '/gestioneleve',
-    iconComponent: { name: 'cil-cursor' },
+    iconComponent: { name: 'cil-people' },
 
   },
   {
     name: 'إدارة حصص التدارك',
     url: '/gestionetude',
-    iconComponent: { name: 'cil-menu' },
+    iconComponent: { name: 'cil-notes' },
   },
 
   {
     name: 'رزنامة حصص التدارك',
     url: '/attendancesheet',
-    iconComponent: { name: 'cil-menu' },
+    iconComponent: { name: 'cil-notes' },
   },
 
 

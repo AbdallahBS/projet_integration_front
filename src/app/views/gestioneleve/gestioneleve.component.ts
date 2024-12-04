@@ -299,6 +299,8 @@ export class GestioneleveComponent implements OnInit {
   }
 
   onFileChange(event: Event): void {
+    console.log("called");
+    
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const file = input.files[0];
@@ -332,6 +334,8 @@ export class GestioneleveComponent implements OnInit {
   }
 
   addElevesFromExcel(eleves: any[]): void {
+    console.log("and called");
+    
     eleves.forEach((eleve) => {
       const classe = this.classes.find((cls) => cls.nomDeClasse === eleve.classe);
 

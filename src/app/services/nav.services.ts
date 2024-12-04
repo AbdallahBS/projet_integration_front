@@ -21,7 +21,7 @@ export class NavService {
     {
       name: 'إدارة المديرين',
       url: '/gestionadmins',
-      iconComponent: { name: 'cil-notes' },
+      iconComponent: { name: 'cil-people' },
     },
     {
       name: 'إدارة المدرسين',

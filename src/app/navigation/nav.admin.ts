@@ -10,7 +10,7 @@ export const adminNavItems: INavData[] = [
   {
     name: 'إدارة المدرسين',
     url: '/gestionenseignant',
-    iconComponent: { name: 'cil-puzzle' },
+    iconComponent: { name: 'cil-people' },
   },
   {
     name: 'إدارة الأقسام',
