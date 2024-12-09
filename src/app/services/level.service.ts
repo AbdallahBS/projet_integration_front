@@ -1,7 +1,7 @@
 // src/app/services/eleve.service.ts
 
-import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders  } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Level } from '../models/level.model'; // Ensure you have an Eleve model
 
@@ -9,9 +9,11 @@ import { Level } from '../models/level.model'; // Ensure you have an Eleve model
   providedIn: 'root'
 })
 export class LevelService {
-  private apiUrl = 'http://localhost:3000/level/levels'; // Update the port as needed
+  private apiUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) {
+    this.apiUrl = `${this.config.apiBaseUrl}/level/levels`;
+  }
 
   getAllLevels(): Observable<Level[]> {
     return this.http.get<Level[]>(this.apiUrl);
@@ -25,5 +27,5 @@ export class LevelService {
   updateLevel(id: number, level: Level): Observable<Level> {
     return this.http.put<Level>(`${this.apiUrl}/${id}`, level);
   }
- 
+
 }

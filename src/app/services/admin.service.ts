@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Admin } from '../models/admin.model';
@@ -7,9 +7,9 @@ import { Admin } from '../models/admin.model';
   providedIn: 'root',
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:3000/api/admins';  // Replace with your actual backend API endpoint
+  private apiUrl = `${this.config.apiBaseUrl}/api/admins`;  // Replace with your actual backend API endpoint
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
 
 
   getCookie(name: string): string | null {
@@ -48,13 +48,13 @@ export class AdminService {
       return decodedToken;
     }
     return null;
-  }  
+  }
 
   getAllAdmins(): Observable<Admin[]> {
     const token = this.getLoggedInUser();
-    const adminId =  token.userId;  // Use userId from the token
-  console.log("this is the admin id " , adminId);
-  
+    const adminId = token.userId;  // Use userId from the token
+    console.log("this is the admin id ", adminId);
+
     return this.http.get<Admin[]>(`${this.apiUrl}?excludeId=${adminId}`);
   }
 

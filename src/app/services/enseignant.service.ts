@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient ,HttpHeaders} from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Enseignant } from '../models/enseignant.model';
 import { catchError, map } from 'rxjs/operators';
@@ -8,9 +8,9 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class EnseignantService {
-  private apiUrl = 'http://localhost:3000/enseignants/enseignants'; // Adjust API URL as needed
+  private apiUrl = `${this.config.apiBaseUrl}/enseignants/enseignants`; // Adjust API URL as needed
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
   getCookie(name: string): string | null {
     const nameEQ = name + "=";
     const cookies = document.cookie.split(';');
@@ -59,7 +59,7 @@ export class EnseignantService {
 
   addEnseignant(enseignantData: Enseignant): Observable<{ message: string, enseignant: Enseignant }> {
     const token = this.getLoggedInUser();
-    
+
     console.log(token);
     const payload = {
       ...enseignantData, // Spread the eleve data
@@ -85,6 +85,6 @@ export class EnseignantService {
       'adminId': token.userId,   // Use userId from the token
       'adminRole': token.userRole // Use userRole from the token
     });
-    return this.http.delete<void>(`${this.apiUrl}/${id}` , {headers});
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 }

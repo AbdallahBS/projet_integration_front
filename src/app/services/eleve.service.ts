@@ -1,6 +1,6 @@
 // src/app/services/eleve.service.ts
 
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Eleve } from '../models/eleve.model'; // Ensure you have an Eleve model
@@ -18,9 +18,9 @@ export interface Student {
   providedIn: 'root'
 })
 export class EleveService {
-  private apiUrl = 'http://localhost:3000/eleve/eleves'; // Update the port as needed
+  private apiUrl = `${this.config.apiBaseUrl}/eleve/eleves`; // Update the port as needed
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
 
 
   getCookie(name: string): string | null {
@@ -60,10 +60,10 @@ export class EleveService {
     }
     return null;
   }
-    // Fetch students by niveau
-    getStudentsByNiveau(niveau: string): Observable<Student[]> {
-      return this.http.get<Student[]>(`http://localhost:3000/eleve/niveau/${niveau}`);
-    }
+  // Fetch students by niveau
+  getStudentsByNiveau(niveau: string): Observable<Student[]> {
+    return this.http.get<Student[]>(`http://localhost:3000/eleve/niveau/${niveau}`);
+  }
 
   getAllEleves(): Observable<Eleve[]> {
     return this.http.get<Eleve[]>(this.apiUrl);

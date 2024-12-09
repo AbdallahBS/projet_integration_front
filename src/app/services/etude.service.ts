@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class EtudeService {
-  private apiUrl = 'http://localhost:3000/api/etudes';
+  private apiUrl = `${this.config.apiBaseUrl}/api/etudes`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
   getEtudes(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
   }
@@ -21,7 +21,7 @@ export class EtudeService {
   getElevesFromEtude(etudeId: string): Observable<any> {
     return this.http.get<any>(`http://localhost:3000/api/etudes/${etudeId}/eleves`);
   }
-  
+
   addElevesToEtude(etudeId: string, eleveIds: string[]): Observable<any> {
     const url = 'http://localhost:3000/api/addeleves';
     const body = { etudeId, eleveIds };

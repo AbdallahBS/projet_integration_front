@@ -1,17 +1,17 @@
 // class.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Class } from  '../models/class.model'; // Create a model for Class
-import { Student } from  '../models/class.model'; // Create a model for Class
+import { Class } from '../models/class.model'; // Create a model for Class
+import { Student } from '../models/class.model'; // Create a model for Class
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClassService {
-  private apiUrl = 'http://localhost:3000/classe'; // Your API endpoint
+  private apiUrl = `${this.config.apiBaseUrl}/classe`; // Your API endpoint
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
   getCookie(name: string): string | null {
     const nameEQ = name + "=";
     const cookies = document.cookie.split(';');
@@ -50,14 +50,14 @@ export class ClassService {
     return null;
   }
   getAllClasses(): Observable<{ message: string; classes: Class[] }> {
-    return this.http.get<{ message: string; classes: Class[] }>(this.apiUrl+'/classes');
+    return this.http.get<{ message: string; classes: Class[] }>(this.apiUrl + '/classes');
   }
   getAllClassesDetails(): Observable<{ message: string; classes: Class[] }> {
-    return this.http.get<{ message: string; classes: Class[] }>(this.apiUrl+'/classesDetail');
+    return this.http.get<{ message: string; classes: Class[] }>(this.apiUrl + '/classesDetail');
   }
 
   getClassesByNiveau(niveau: string): Observable<any> {
-    
+
     return this.http.get<any>(`${this.apiUrl}/classes/niveau/${niveau}`);
   }
 
@@ -67,19 +67,19 @@ export class ClassService {
       'adminId': token.userId,   // Use userId from the token
       'adminRole': token.userRole // Use userRole from the token
     });
-    return this.http.delete(`${this.apiUrl}/classes/${id}`, {headers});
+    return this.http.delete(`${this.apiUrl}/classes/${id}`, { headers });
   }
   addClass(classData: { nomDeClasse: string; niveau: string }): Observable<any> {
     const token = this.getLoggedInUser();
 
     const payload = {
-      
+
       ...classData, // Spread the eleve data
       adminId: token.userId, // Use userId from the token
       adminRole: token.userRole // Use userRole from the token
     };
-    
-    return this.http.post(this.apiUrl+'/classes', payload);
+
+    return this.http.post(this.apiUrl + '/classes', payload);
   }
 
   updateClass(id: string, classData: Class): Observable<any> {
@@ -91,9 +91,9 @@ export class ClassService {
     };
     return this.http.put(`${this.apiUrl}/classes/${id}`, payload);
   }
-  
+
 
   getStudentsByClassId(classId: string): Observable<Student[]> {
     return this.http.get<Student[]>(`http://localhost:3000/eleve/classe/${classId}/eleves`);
-}
+  }
 }

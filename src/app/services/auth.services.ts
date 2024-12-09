@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/auth';  // Your Node.js backend URL
+  private apiUrl = `${this.config.apiBaseUrl}/auth`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { console.log('${this.config.apiBaseUrl}') }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/signin`, { username, password }, { withCredentials: true });

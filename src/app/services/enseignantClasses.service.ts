@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { EnseignantClasses } from '../models/enseignantClasses.model';
@@ -10,9 +10,9 @@ import { Enseignant } from '../models/enseignant.model';
 })
 export class EnseignantClassesService {
 
-    private apiUrl = 'http://localhost:3000/enseignantClasse'; // Adjust API URL as needed
+    private apiUrl = `${this.config.apiBaseUrl}/enseignantClasse`; // Adjust API URL as needed
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, @Inject('CONFIG') private config: any) { }
 
     addEnseignantClasses(enseignantId: string, classes: Array<{ classe: string, matiere: string }>): Observable<any> {
         console.log("last call: ", { enseignantId, classes });

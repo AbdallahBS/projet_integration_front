@@ -33,15 +33,15 @@ export class NavService {
       url: '/gestioneleve',
       iconComponent: { name: 'cil-cursor' },
     },
-    
-  {
-    name: 'رزنامة حصص التدارك',
-    url: '/attendancesheet',
-    iconComponent: { name: 'cil-menu' },
-  },
+
+    {
+      name: 'رزنامة حصص التدارك',
+      url: '/attendancesheet',
+      iconComponent: { name: 'cil-menu' },
+    },
   ];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   getNavItems() {
     const user = this.authService.getLoggedInUser(); // Retrieve the logged-in user

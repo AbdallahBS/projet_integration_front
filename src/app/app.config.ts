@@ -6,6 +6,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { registerLocaleData, } from '@angular/common';
 import localeArTN from '@angular/common/locales/ar-TN';
+import { CONFIG } from './config/config';
 
 registerLocaleData(localeArTN);
 
@@ -48,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       })),
     IconSetService,
     provideAnimations(),
-    { provide: LOCALE_ID, useValue: 'ar-TN' }
+    { provide: LOCALE_ID, useValue: 'ar-TN' },
+    { provide: 'CONFIG', useValue: CONFIG }
   ]
 };
